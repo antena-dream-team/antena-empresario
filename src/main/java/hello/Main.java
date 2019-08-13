@@ -10,8 +10,8 @@ public class Main {
 		
 		Model model = new Model();
 		
-		model.addUser(Document.parse("{'name':'pedro', 'password':'12345'}"));
-		model.addUser(Document.parse("{'name':'pedro', 'password':'11111'}"));
+		model.addResponsavelEmpresario(Document.parse("{'name':'pedro', 'password':'12345', 'diferentao': 'diferenciado'}"));
+		model.addResponsavelEmpresario(Document.parse("{'name':'pedro', 'password':'11111'}"));
 		
 		FindIterable<Document> found = model.searchByName("pedro");
 		
