@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>skillsfatec</name>
+	<name>antena-empresario</name>
 	<comment>Project skillsfatec created by Buildship.</comment>
 	<projects>
 	</projects>
@@ -22,7 +22,7 @@
 	</natures>
 	<filteredResources>
 		<filter>
-			<id>1463017363800</id>
+			<id>0</id>
 			<name></name>
 			<type>26</type>
 			<matcher>
@@ -31,7 +31,7 @@
 			</matcher>
 		</filter>
 		<filter>
-			<id>1463017363940</id>
+			<id>0</id>
 			<name></name>
 			<type>26</type>
 			<matcher>
