@@ -10,14 +10,16 @@ public class Main {
 		
 		Model model = new Model();
 		
-		model.addResponsavelEmpresario(Document.parse("{'name':'pedro', 'password':'12345', 'diferentao': 'diferenciado'}"));
-		model.addResponsavelEmpresario(Document.parse("{'name':'pedro', 'password':'11111'}"));
+	    model.addProjeto(Document.parse("{'name':'pedro', 'password':'12345', 'diferentao': 'diferenciado'}"));
+		model.getAllProjetos();
 		
-		FindIterable<Document> found = model.searchByName("pedro");
+		Document pedro = model.searchByName("pedro");
+		pedro.put("name", "pedrao");
 		
-		for(Document doc:found){
-			System.out.println(doc);
-		}
+		System.out.println(pedro.get("name"));
+		
+		model.updateProjeto(pedro);
+		model.getAllProjetos();
 	}
 	
 }
