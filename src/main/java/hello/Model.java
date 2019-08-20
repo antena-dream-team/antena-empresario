@@ -1,5 +1,4 @@
 package hello;
-
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
@@ -12,8 +11,7 @@ import com.mongodb.client.model.FindOneAndUpdateOptions;
 
 
 public class Model {
-	
-	
+
 	Fongo fongo = new Fongo("mongo");
 	MongoDatabase db = fongo.getDatabase("app");
 	
