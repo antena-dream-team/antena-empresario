@@ -16,32 +16,29 @@ public class Model {
 	MongoDatabase db = fongo.getDatabase("app");
 	
 	public void addProjeto(Document projeto) {
-    	
 		MongoCollection<Document> projetos = db.getCollection("projeto");
     	projetos.insertOne(projeto);
-    	
 	}
 	
+	
+	public void addEmpresario(Document empresario) {
+		MongoCollection<Document> empresarios = db.getCollection("empresario");
+		empresarios.insertOne(empresario);
+	}
+	
+	
 	public void updateProjeto(Document projeto) {
-    	
 		MongoCollection<Document> projetos = db.getCollection("projeto");
-    	
     	BasicDBObject query = new BasicDBObject();
-    	
     	query.append("_id", projeto.get("_id"));
-		
     	Bson newDocument = new Document("$set", projeto);
-    	
     	projetos.findOneAndUpdate(query, newDocument, (new FindOneAndUpdateOptions()).upsert(true));
 	}
 
-	
 	public FindIterable<Document> getAllProjetos() {
-    	
 		MongoCollection<Document> projetos = db.getCollection("projeto");
-    	
 		FindIterable<Document> todos = projetos.find();
-		
+
 		for(Document projeto: todos) {
 			System.out.println(projeto);
 		}
