@@ -30,6 +30,18 @@ public class REST{
 		this.model = store;
 	}
 	
+	public void home() {
+		get("/", new Route() {
+			@Override
+			public Object handle(final Request request, final Response response) {
+				
+				response.header("Access-Control-Allow-Origin", "*");
+				JSONObject jsonobj = new JSONObject();
+				jsonobj.put("Ola!", "Amigo!");
+				return jsonobj;
+			}
+		});
+	}
 	
 		
 }

@@ -36,7 +36,7 @@ public class MainServer {
 		
 		REST controller = new REST(model); 
 		
-
+		controller.home();
     }
 	
     public static void initializeModel(){
