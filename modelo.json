@@ -2,6 +2,7 @@
 	"empresario": {
 		"nome": "aa",
 		"email": "bbb",
+		"empresa": "embraboing",
 		"cpf": "vcc",
 		"senha": "ddd"
 	},
