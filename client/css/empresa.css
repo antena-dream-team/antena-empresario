@@ -1,7 +1,10 @@
-.empresa {
-  width: 90%;
+body {
   font-family: 'Work Sans', sans-serif;
   font-size: 14px;
+}
+
+.empresa {
+  width: 90%;
   padding: 24px 0;
   max-width: 1080px;
   margin: 0 auto;
@@ -169,4 +172,19 @@
 
 .empresa__regist .form .btn {
   margin-top: 8px;
+}
+
+@media (max-width: 830px) {
+  .empresa__content {
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+
+  .empresa__projects, .empresa__regist {
+    width: 100%;
+  }
+
+  .empresa__regist {
+    margin-bottom: 24px;
+  }
 }
