@@ -3,15 +3,7 @@ package hello;
 import static spark.Spark.*;
 
 
-
-
-import java.util.LinkedList;
-import java.util.List;
-
-
-
 public class MainServer {
-
 	final static Model model = new Model();
 
     public static void main(String[] args) {
@@ -25,21 +17,18 @@ public class MainServer {
             port = 8081;
         }
         port(port);
-
-		
         
         initializeModel();
-		
-        
-		
+
 		staticFileLocation("/static");
 		
 		REST controller = new REST(model); 
 		
 		controller.home();
-		controller.cadastro();
+		controller.cadastroEmpresario();
+        controller.cadastroProjeto();
     }
-	
+
     public static void initializeModel(){
 		
 	}

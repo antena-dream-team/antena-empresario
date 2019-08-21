@@ -48,8 +48,8 @@ public class Model {
 
 	
 	public Document searchByName(String name) {
-		MongoCollection<Document> users = db.getCollection("projeto");
-    	Document found = users.find(new Document("name", name)).first();
+		MongoCollection<Document> users = db.getCollection("empresario");
+    	Document found = users.find(new Document("nome", name)).first();
     	return found;
     }
 }

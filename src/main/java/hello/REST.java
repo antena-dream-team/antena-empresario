@@ -12,20 +12,20 @@ import spark.Response;
 import spark.Route;
 
 
-public class REST{
+public class REST {
 
 	private Model model;
-	
 
-	public REST(Model store){
+
+	public REST(Model store) {
 		this.model = store;
 	}
-	
+
 	public void home() {
 		get("/", new Route() {
 			@Override
 			public Object handle(final Request request, final Response response) {
-				
+
 				response.header("Access-Control-Allow-Origin", "*");
 				JSONObject jsonobj = new JSONObject();
 				jsonobj.put("Ola!", "Amigo!");
@@ -33,16 +33,15 @@ public class REST{
 			}
 		});
 	}
-	
-	public void cadastro() {
-		post("/cadastro", new Route() {
+
+	public void cadastroEmpresario() {
+		post("/cadastroempresario", new Route() {
 			@Override
 			public Object handle(final Request request, final Response response) {
 
 				try {
 					response.header("Access-Control-Allow-Origin", "*");
 					String jsonString = request.body();
-					JSONObject jsonObj = new JSONObject(jsonString);
 					model.addEmpresario(Document.parse(jsonString));
 
 					return "Usuário adicionado";
@@ -50,10 +49,26 @@ public class REST{
 				} catch (JSONException ex) {
 					return "Deu ruim";
 				}
-
 			}
 		});
 	}
-	
-		
+
+	public void cadastroProjeto() {
+		post("/cadastroprojeto", new Route() {
+			@Override
+			public Object handle(final Request request, final Response response) {
+
+				try {
+					response.header("Access-Control-Allow-Origin", "*");
+					String jsonString = request.body();
+					model.addProjeto(Document.parse(jsonString));
+
+					return "Projeto cadastrado";
+
+				} catch (JSONException ex) {
+					return "Deu ruim";
+				}
+			}
+		});
+	}
 }
