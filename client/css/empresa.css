@@ -184,6 +184,10 @@ body {
     width: 100%;
   }
 
+  .empresa__projects {
+    margin: 0;
+  }
+
   .empresa__regist {
     margin-bottom: 24px;
   }
