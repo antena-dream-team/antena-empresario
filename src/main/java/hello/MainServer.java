@@ -22,7 +22,7 @@ public class MainServer {
         if (process.environment().get("PORT") != null) {
             port = Integer.parseInt(process.environment().get("PORT"));
         } else {
-            port = 8080;
+            port = 8081;
         }
         port(port);
 
@@ -36,7 +36,8 @@ public class MainServer {
 		
 		REST controller = new REST(model); 
 		
-
+		controller.home();
+		controller.cadastro();
     }
 	
     public static void initializeModel(){
