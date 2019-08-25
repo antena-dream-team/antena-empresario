@@ -20,6 +20,12 @@ public class Main {
 		
 		model.updateProjeto(pedro);
 		model.getAllProjetos();
+		Jwt keycontrol = new Jwt();
+		
+		/* testes do jwt
+		String ola = keycontrol.GenerateJwt();
+		System.out.println(ola + " " + keycontrol.verifyJwt(ola+'a'));
+		*/
 	}
 	
 }
