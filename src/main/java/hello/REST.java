@@ -20,7 +20,7 @@ public class REST {
 	}
 
 	public void home() {
-		get("/", new Route() {
+		get("/test", new Route() {
 			@Override
 			public Object handle(final Request request, final Response response) {
 
@@ -60,12 +60,24 @@ public class REST {
 					response.header("Access-Control-Allow-Origin", "*");
 					String jsonString = request.body();
 					model.addProjeto(Document.parse(jsonString));
-
+					
 					return "Projeto cadastrado";
 
 				} catch (JSONException ex) {
 					return "Deu ruim";
 				}
+			}
+		});
+	}
+	
+	public void getProjetos() {
+		get("/projetos", new Route() {
+			@Override
+			public Object handle(final Request request, final Response response) {
+				
+				response.body(model.getAllProjetos().toString());
+				
+				return model.getAllProjetos();
 			}
 		});
 	}
