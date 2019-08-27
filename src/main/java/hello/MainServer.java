@@ -27,6 +27,7 @@ public class MainServer {
 		controller.home();
 		controller.cadastroEmpresario();
         controller.cadastroProjeto();
+        controller.getProjetos();
     }
 
     public static void initializeModel(){

@@ -7,21 +7,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://fonts.googleapis.com/css?family=Work+Sans:400,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" type="text/css" media="screen" href="css/reset.css" />
-  <link rel="stylesheet" type="text/css" media="screen" href="css/styles.css" />
+  <link rel="stylesheet" type="text/css" media="screen" href="css/empresa.css" />
+  <link rel="stylesheet" type="text/css" media="screen" href="css/popup.css" />
 </head>
 <body>
   <div class="empresa">
     <header class="empresa__header">
       <h1 class="plataform-name">Projeto Antenas</h1>
-      <div class="empresario">
-        <div class="empresario-info">
-          <span class="name">Helen Silva</span>
-          <span class="company">Focus Network</span>
-        </div>
-        <div class="empresario-pic">
-          <img src="https://picsum.photos/100" alt="Foto de usuário">
-        </div>
-      </div>
+      <div class="empresario" data-empresario-info></div>
     </header>
     <section class="empresa__content">
       <article class="empresa__projects">
@@ -36,27 +29,14 @@
               <th>Status</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>Realidade aumentada de Aeronautica</td>
-              <td>Técnologia para permitir o manuseio de peças de aeronave através da realidade aumentada</td>
-              <td class="status status--yellow">Em andamento
-
-              </td>
-            </tr>
-            <tr>
-              <td>Realidade aumentada de Aeronautica</td>
-              <td>Técnologia para permitir o manuseio de peças de aeronave através da realidade aumentada</td>
-              <td class="status status--green">Entregue</td>
-            </tr>
-          </tbody>
+          <tbody data-projects-wrapper></tbody>
         </table>
       </article>
       <aside class="empresa__regist">
         <div class="section-title">
           <h3>Adicionar novo projeto</h3>
         </div>
-        <form class="form" data-form>
+        <form class="form" data-add-project-form>
           <div class="field">
             <label for="nome">Nome do projeto</label>
             <input data-field class="custom-input" id="nome" type="text">

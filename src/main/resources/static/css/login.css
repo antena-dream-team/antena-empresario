@@ -5,6 +5,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
 }
 
 .head {
@@ -160,3 +161,4 @@ input[type=text], input[type=password] {
     box-sizing: border-box;
 
   }
+

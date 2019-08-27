@@ -6,7 +6,5 @@ bin
 /bin/**
 .settings
 .project
-.project
-.settings
 /bin
 .idea
