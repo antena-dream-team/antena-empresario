@@ -32,12 +32,12 @@ public class Model {
 	}
 	
 	
-	public void updateProjeto(Document projeto) {
+	public Document updateProjeto(Document projeto) {
 		MongoCollection<Document> projetos = db.getCollection("projeto");
     	BasicDBObject query = new BasicDBObject();
     	query.append("_id", projeto.get("_id"));
     	Bson newDocument = new Document("$set", projeto);
-    	projetos.findOneAndUpdate(query, newDocument, (new FindOneAndUpdateOptions()).upsert(true));
+    	return projetos.findOneAndUpdate(query, newDocument, (new FindOneAndUpdateOptions()).upsert(true));
 	}
 
 	public FindIterable<Document> getAllProjetos() {

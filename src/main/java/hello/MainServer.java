@@ -31,6 +31,7 @@ public class MainServer {
         controller.cadastroProjeto();
         controller.getProjetos();
         controller.deletaProjeto();
+        controller.atualizaProjeto();
     }
 
     public static void initializeModel(){

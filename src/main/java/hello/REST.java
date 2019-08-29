@@ -91,12 +91,26 @@ public class REST {
 			}
 		});
 	}
+	
+	public void atualizaProjeto() {
+		post("/atualizaProjeto", new Route() {
+			@Override
+			public Object handle(final Request request, final Response response) {
+				
+				try {
+					response.header("Access-Control-Allow-Origin", "*");
+					return model.updateProjeto(Document.parse( request.body() )) == null? "projeto não encontrado": "projeto deletado";
+				}catch(Exception ex) { throw ex; }
+			}
+		});
+	}
+	
 	public void getProjetos() {
 		get("/projetos", new Route() {
 			@Override
 			public Object handle(final Request request, final Response response) {
 				
-				  FindIterable<Document> projectsFound = model.getAllProjetos();
+				 FindIterable<Document> projectsFound = model.getAllProjetos();
 				
 				 return StreamSupport.stream(projectsFound.spliterator(), false)
 			        .map(Document::toJson)
