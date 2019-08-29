@@ -3,7 +3,13 @@ package hello;
 import static spark.Spark.get;
 import static spark.Spark.post;
 
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
 import org.json.*;
+
+import com.mongodb.client.FindIterable;
+
 import org.bson.Document;
 import spark.Request;
 import spark.Response;
@@ -75,9 +81,11 @@ public class REST {
 			@Override
 			public Object handle(final Request request, final Response response) {
 				
-				response.body(model.getAllProjetos().toString());
+				  FindIterable<Document> projectsFound = model.getAllProjetos();
 				
-				return model.getAllProjetos();
+				 return StreamSupport.stream(projectsFound.spliterator(), false)
+			        .map(Document::toJson)
+			        .collect(Collectors.joining(", ", "[", "]"));
 			}
 		});
 	}
