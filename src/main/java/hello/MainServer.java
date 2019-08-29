@@ -30,6 +30,7 @@ public class MainServer {
 		controller.cadastroEmpresario();
         controller.cadastroProjeto();
         controller.getProjetos();
+        controller.deletaProjeto();
     }
 
     public static void initializeModel(){

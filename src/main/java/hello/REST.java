@@ -9,6 +9,7 @@ import java.util.stream.StreamSupport;
 import org.json.*;
 
 import com.mongodb.client.FindIterable;
+import com.mongodb.client.result.DeleteResult;
 
 import org.bson.Document;
 import spark.Request;
@@ -76,6 +77,20 @@ public class REST {
 		});
 	}
 	
+	public void deletaProjeto() {
+		post("/deletaProjeto", new Route() {
+			@Override
+			public Boolean handle(final Request request, final Response response) {
+				
+				try {
+					response.header("Access-Control-Allow-Origin", "*");
+					return model.deleteProject( Document.parse( request.body() ) ).getDeletedCount() > 0 ? true: false;
+					
+				}catch(Exception ex){ throw ex; }
+				
+			}
+		});
+	}
 	public void getProjetos() {
 		get("/projetos", new Route() {
 			@Override

@@ -8,6 +8,7 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.FindOneAndUpdateOptions;
+import com.mongodb.client.result.DeleteResult;
 
 
 public class Model {
@@ -20,6 +21,10 @@ public class Model {
     	projetos.insertOne(projeto);
 	}
 	
+	public DeleteResult deleteProject(Document project) {
+		MongoCollection<Document> projectsFound = db.getCollection("projeto");
+		return projectsFound.deleteOne(project);
+	}
 	
 	public void addEmpresario(Document empresario) {
 		MongoCollection<Document> empresarios = db.getCollection("empresario");
