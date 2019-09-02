@@ -19,25 +19,23 @@
 
 </head>
 
-<body style="background-image: url(background.jpg);
+<body style="background-image: url(imgs/background.jpg);
 background-repeat: no-repeat;
 background-size: 100%;"> 
 
   <div class="row navbar navbar-light bg-light" style="margin: 0 0 0 0;">
-        <img class="img-fluid col-1" style="max-width:180px" src="fodase.svg">
+        <img class="img-fluid col-1" style="max-width:180px" src="imgs/logo.svg">
 
-        <div class="col-8"></div>
-          <span class="col-1">
-          </span>
+        <div class="navbar-buttons">
+          <a class="quem-somos" href class="text" >Quem somos</a>
+          <a href class="text" onclick="abrePopupCadastro(event)">Cadastrar</a>
           <a href class="text" onclick="abrePopupLogin(event)" >Entrar</a>
-          <span class="col-1">
-            <a href class="text" onclick="abrePopupCadastro(event)">Cadastrar</a>
-          </span>
+        </div>
     </div>
 
     <div id="login" class="modal">
       
-      <form class="modal-content animate">
+      <form data-login-form class="modal-content animate">
         <div class="imgcontainer">
           <span onclick="fechaPopupLogin(event)" class="close" title="Close Modal">&times;</span>
         </div>

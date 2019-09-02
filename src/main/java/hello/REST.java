@@ -74,9 +74,29 @@ public class REST {
 		get("/projetos", new Route() {
 			@Override
 			public Object handle(final Request request, final Response response) {
-				
+
+				try {
+					response.header("Access-Control-Allow-Origin", "*");
+					String jsonString = request.body();
+
+					model.addEmpresario(Document.parse(jsonString));
+
+					return "Usuário adicionado";
+
+				} catch (JSONException ex) {
+					return "Deu ruim";
+				}
+			}
+		});
+	}
+
+	public void loginEmpresario() {
+		post("/loginempresario", new Route() {
+			@Override
+			public Object handle(final Request request, final Response response) {
+
 				response.body(model.getAllProjetos().toString());
-				
+
 				return model.getAllProjetos();
 			}
 		});
