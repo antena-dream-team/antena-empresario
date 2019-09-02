@@ -3,7 +3,14 @@ package hello;
 import static spark.Spark.get;
 import static spark.Spark.post;
 
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
 import org.json.*;
+
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.result.DeleteResult;
+
 import org.bson.Document;
 import spark.Request;
 import spark.Response;
@@ -70,35 +77,57 @@ public class REST {
 		});
 	}
 	
-	public void getProjetos() {
-		get("/projetos", new Route() {
+	public void deletaProjeto() {
+		post("/deletaProjeto", new Route() {
+			@Override
+			public Boolean handle(final Request request, final Response response) {
+
+				try {
+					response.header("Access-Control-Allow-Origin", "*");
+					return model.deleteProject( Document.parse( request.body() ) ).getDeletedCount() > 0 ? true: false;
+
+				}catch(Exception ex){ throw ex; }
+
+			}
+		});
+	}
+
+	public void atualizaProjeto() {
+		post("/atualizaProjeto", new Route() {
 			@Override
 			public Object handle(final Request request, final Response response) {
 
 				try {
 					response.header("Access-Control-Allow-Origin", "*");
-					String jsonString = request.body();
-
-					model.addEmpresario(Document.parse(jsonString));
-
-					return "Usuário adicionado";
-
-				} catch (JSONException ex) {
-					return "Deu ruim";
-				}
+					return model.updateProjeto(Document.parse( request.body() )) == null? "projeto n�o encontrado": "projeto deletado";
+				}catch(Exception ex) { throw ex; }
 			}
 		});
 	}
 
-	public void loginEmpresario() {
-		post("/loginempresario", new Route() {
+	public void getProjetos() {
+		get("/projetos", new Route() {
 			@Override
 			public Object handle(final Request request, final Response response) {
 
-				response.body(model.getAllProjetos().toString());
+				 FindIterable<Document> projectsFound = model.getAllProjetos();
 
-				return model.getAllProjetos();
+				 return StreamSupport.stream(projectsFound.spliterator(), false)
+			        .map(Document::toJson)
+			        .collect(Collectors.joining(", ", "[", "]"));
 			}
 		});
 	}
+
+    public void loginEmpresario() {
+        post("/loginempresario", new Route() {
+            @Override
+            public Object handle(final Request request, final Response response) {
+
+                response.body(model.getAllProjetos().toString());
+
+                return model.getAllProjetos();
+            }
+        });
+    }
 }

@@ -2,6 +2,8 @@ package hello;
 
 import static spark.Spark.*;
 
+import org.bson.Document;
+
 
 public class MainServer {
 	final static Model model = new Model();
@@ -28,11 +30,14 @@ public class MainServer {
 		controller.cadastroEmpresario();
         controller.cadastroProjeto();
         controller.getProjetos();
+        controller.deletaProjeto();
+        controller.atualizaProjeto();
         controller.loginEmpresario();
     }
 
     public static void initializeModel(){
-		
+    	model.addProjeto(Document.parse("{'name':'pedro', 'password':'12345', 'diferentao': 'diferenciado'}"));
+		model.getAllProjetos();
 	}
 	
 }
