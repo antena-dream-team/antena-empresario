@@ -9,21 +9,38 @@
 	"projeto": {
 		"titulo": "a",
 		"descricao-breve": "a",
+		"link-externo-1": "",
+		"link-externo-2": "",
 		"descricao-completa": "a",
+		"descricao-tecnologias": "",
 		"fase": 4,
+		"reuniao": {
+			"data": "",
+			"horario": "",
+			"local": ""
+		},
 		"status": {
 			"negado": true,
 			"motivo": "sou um merda"
 		},
-		"alunos": [
-			"email1", 
-			"email2"
+		"entregas": [
+			{
+				"aluno-responsavel": "responsavel@email.com",
+				"alunos": [
+					"outros@email.com"
+				],
+				"link-repositorio": "http://repo.com.br",
+				"link-cloud": "http://cloud.com",
+				"comentario": "sla"
+			}
 		],
-		"responsavel-cad": "suamae@hotmail.com",
+		"responsavel-cadi": "suamae@hotmail.com",
 		"responsavel-professor": [
 			"seupai@yahoo.com"
 		],
-		"responsavel-empresario": "sua tia",
-		"submissao": "linkzinho.com"
+		"responsavel-empresario": "sua tia"
+		"alunos": [
+			"email@alunos.com.br"
+		]
 	}
 }
