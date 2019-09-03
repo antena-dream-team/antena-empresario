@@ -32,6 +32,7 @@ public class MainServer {
         controller.getProjetos();
         controller.deletaProjeto();
         controller.atualizaProjeto();
+        controller.loginEmpresario();
     }
 
     public static void initializeModel(){

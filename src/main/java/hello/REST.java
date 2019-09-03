@@ -81,41 +81,53 @@ public class REST {
 		post("/deletaProjeto", new Route() {
 			@Override
 			public Boolean handle(final Request request, final Response response) {
-				
+
 				try {
 					response.header("Access-Control-Allow-Origin", "*");
 					return model.deleteProject( Document.parse( request.body() ) ).getDeletedCount() > 0 ? true: false;
-					
+
 				}catch(Exception ex){ throw ex; }
-				
+
 			}
 		});
 	}
-	
+
 	public void atualizaProjeto() {
 		post("/atualizaProjeto", new Route() {
 			@Override
 			public Object handle(final Request request, final Response response) {
-				
+
 				try {
 					response.header("Access-Control-Allow-Origin", "*");
-					return model.updateProjeto(Document.parse( request.body() )) == null? "projeto não encontrado": "projeto deletado";
+					return model.updateProjeto(Document.parse( request.body() )) == null? "projeto nï¿½o encontrado": "projeto deletado";
 				}catch(Exception ex) { throw ex; }
 			}
 		});
 	}
-	
+
 	public void getProjetos() {
 		get("/projetos", new Route() {
 			@Override
 			public Object handle(final Request request, final Response response) {
-				
+
 				 FindIterable<Document> projectsFound = model.getAllProjetos();
-				
+
 				 return StreamSupport.stream(projectsFound.spliterator(), false)
 			        .map(Document::toJson)
 			        .collect(Collectors.joining(", ", "[", "]"));
 			}
 		});
 	}
+
+    public void loginEmpresario() {
+        post("/loginempresario", new Route() {
+            @Override
+            public Object handle(final Request request, final Response response) {
+
+                response.body(model.getAllProjetos().toString());
+
+                return model.getAllProjetos();
+            }
+        });
+    }
 }
