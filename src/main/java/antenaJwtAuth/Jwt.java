@@ -1,16 +1,18 @@
-package hello;
+package antenaJwtAuth;
 import com.auth0.jwt.*;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.auth0.jwt.interfaces.Payload;
 
 
 public final class Jwt {
 	 
 	private Algorithm SecretWord = Algorithm.HMAC256("antena-project");
 	
-	public String GenerateJwt() {
+	public String GenerateJwt(String email) {
 			// set key to generate jwt
 			
 			String token = new String();
@@ -18,6 +20,7 @@ public final class Jwt {
 			// try to generate jwt
 			try {
 				token = JWT.create()
+						.withClaim("email", email)
 				        .withIssuer("auth0")
 				        .sign(this.SecretWord);	
 			}catch(JWTCreationException ex){throw ex;}
@@ -25,14 +28,23 @@ public final class Jwt {
 			return token;
 		}
 	
-	public boolean verifyJwt( String Tolken ) {		
+	public String verifyJwt( String Tolken ) {	
+		String email;
 		try {
+			email = getClaimFromToken(Tolken);
+			
 		    JWTVerifier verifier = JWT.require(this.SecretWord)
+		    	.withClaim("email", email)
 		        .withIssuer("auth0")
 		        .build(); //Reusable verifier instance
 		     verifier.verify(Tolken);
-		} catch (JWTVerificationException ex){return  false;}
+		} catch (JWTVerificationException ex){return  null;}
 		
-		return true;
+		return email.length() > 0 ? email: null;
 	}
+	
+	private String getClaimFromToken(String token) {
+        Claim Claim = JWT.decode(token).getClaim("email");
+        return Claim.asString();
+    }
 }

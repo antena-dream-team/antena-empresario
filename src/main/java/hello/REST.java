@@ -11,26 +11,31 @@ import org.json.*;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.result.DeleteResult;
 
+import antenaJwtAuth.JwtRest;
+
 import org.bson.Document;
 import spark.Request;
 import spark.Response;
 import spark.Route;
 
 
-public class REST {
+public class REST extends JwtRest{
 
 	private Model model;
 
 
 	public REST(Model store) {
-		this.model = store;
+		super(store);
 	}
 
 	public void home() {
-		get("/test", new Route() {
+		
+		
+		get("/test",  new Route() {
 			@Override
 			public Object handle(final Request request, final Response response) {
 
+				
 				response.header("Access-Control-Allow-Origin", "*");
 				JSONObject jsonobj = new JSONObject();
 				jsonobj.put("Ola!", "Amigo!");

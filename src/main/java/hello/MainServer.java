@@ -33,6 +33,8 @@ public class MainServer {
         controller.deletaProjeto();
         controller.atualizaProjeto();
         controller.loginEmpresario();
+        // auth
+        controller.Auth();
     }
 
     public static void initializeModel(){
