@@ -9,29 +9,108 @@
     };
   }
 
-  async function _getProjects() {
+  function _getProjects() {
     
     return [
       {
         _id: 'a65we1q5d15as1d6wqe',
-        titulo: 'Projeto de engenharia pa',
-        descricaobreve: 'Descricao pequena descrevendo da vida, o universo e tudo mais',
-        descricaocompleta: '',
-        fase: 4,
+        titulo: 'Um projeto na fase 1',
+        'descricao-breve': 'É um projeto que foi criado pelo empresário com apenas o nome e uma descrição breve',
+        'descricao-completa': '',
+        'descricao-tecnologias': '',
+        'link-externo-1': '',
+        'link-externo-2': '',
+        fase: 1,
+        reuniao: {
+          data: '',
+          horario: '',
+          local: '',
+          'datas-possiveis': []
+        },
         status: {
           negado: false,
           motivo: ''
         },
-        alunos: [
-          'aluno@email.com',
-          'aluno2@email.com'
-        ],
-        'responsavel-cad': 'cad@hotmail.com',
-        'responsavel-professor': [
-          'cad@yahoo.com'
-        ],
-        'responsavel-empresario': 'Bruna',
-        submissao: 'linkzinho.com'
+        entregas: [],
+        alunos: [],
+        'responsavel-cadi': '',
+        'responsavel-professor': [],
+        'responsavel-empresario': 'Bruna'
+      },
+      {
+        _id: 'jwoiheou13h3o1u28hou',
+        titulo: 'Um projeto na fase 2',
+        'descricao-breve': 'Nesta fase o usuário tem que preencher a descrição completa',
+        'descricao-completa': '',
+        'descricao-tecnologias': '',
+        'link-externo-1': '',
+        'link-externo-2': '',
+        fase: 2,
+        reuniao: {
+          data: '',
+          horario: '',
+          local: '',
+          'datas-possiveis': []
+        },
+        status: {
+          negado: false,
+          motivo: ''
+        },
+        entregas: [],
+        alunos: [],
+        'responsavel-cadi': '',
+        'responsavel-professor': [],
+        'responsavel-empresario': 'Bruna'
+      },
+      {
+        _id: '1o23u1io2jdpasd',
+        titulo: 'Um projeto na fase 3',
+        'descricao-breve': 'Nesta fase o usuário tem que esperar uma avaliação detalhada',
+        'descricao-completa': 'Agora a descrição completa foi aprovada',
+        'descricao-tecnologias': '',
+        'link-externo-1': '',
+        'link-externo-2': '',
+        fase: 3,
+        reuniao: {
+          data: '',
+          horario: '',
+          local: '',
+          'datas-possiveis': []
+        },
+        status: {
+          negado: false,
+          motivo: ''
+        },
+        entregas: [],
+        alunos: [],
+        'responsavel-cadi': '',
+        'responsavel-professor': [],
+        'responsavel-empresario': 'Bruna'
+      },
+      {
+        _id: 'ipokjp1o23jpi12j39',
+        titulo: 'Um projeto na fase 4',
+        'descricao-breve': 'Nesta fase o usuário tem que dar uma sugestão para horario reunião',
+        'descricao-completa': 'Apos definido o horario, agora vamos asodk',
+        'descricao-tecnologias': '',
+        'link-externo-1': '',
+        'link-externo-2': '',
+        fase: 4,
+        reuniao: {
+          data: '',
+          horario: '',
+          local: '',
+          'datas-possiveis': []
+        },
+        status: {
+          negado: false,
+          motivo: ''
+        },
+        entregas: [],
+        alunos: [],
+        'responsavel-cadi': '',
+        'responsavel-professor': [],
+        'responsavel-empresario': 'Bruna'
       }
     ];
   }
@@ -59,7 +138,7 @@
       
       projectElement.setAttribute('data-project-item', project._id);
       nameColumn.innerText = project.titulo;
-      descriptionColumn.innerText = project.descricaobreve;
+      descriptionColumn.innerText = project['descricao-breve'];
 
       statusColumn.innerText = 'Em andamento';
       statusColumn.classList.add('status')
@@ -75,52 +154,140 @@
 
   function _createPopupElement(projeto) {
 
+    function _hasFieldsToChange() {
+      return (
+        (projeto.fase == 2 && !projeto['descricao-completa']) ||
+        (projeto.fase == 4 && !projeto.reuniao['datas-possiveis'].length)
+      );
+    }
+
     function _getDescricaoCompletaHTML() {
-      if (projeto.descricaocompleta) {
-        return `
+      
+      var descricaoCompleta = projeto['descricao-completa'];
+      
+      if (!descricaoCompleta) return '';
+
+      return `
+        <div class="body-content-row">
           <div class="body-content-section body-content-section--long">
             <div class="title">
-              <span>Descrição breve:</span>
+              <span>Descrição completa:</span>
             </div>
             <div class="text">
-              <p>${ projeto.descricaocompleta }</p>
+              <p>${ descricaoCompleta }</p>
             </div>
           </div>
-        `;
-      };
-      return '';
+        </div>
+      `;
+    }
+    function _getInputDescricaoCompletaHTML() {
+      
+      if (projeto.fase != 2 || projeto['descricao-completa']) return '';
+
+      return `
+        <div class="body-content-row">
+          <div class="body-content-section body-content-section--long">
+            <div class="title">
+              <span>Digite a descrição completa:</span>
+            </div>
+            <div class="text">
+              <textarea></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="body-content-row">
+          <div class="body-content-section body-content-section--long">
+            <div class="title">
+              <span>Digite a descrição de tecnologia:</span>
+            </div>
+            <div class="text">
+              <textarea></textarea>
+            </div>
+          </div>
+        </div>
+      `;
     }
     function _getSubmissaoHTML() {
-      if (projeto.submissao) {
-        return `
-          <div class="body-content-section body-content-section--long">
-            <div class="title">
-              <span>Link da submissão:</span>
-            </div>
-            <div class="text">
-              <a href="${ projeto.submissao }">${ projeto.submissao }</a>
-            </div>
+
+      var submissoes = projeto.entregas;
+
+      if (!submissoes.length) return '';
+      
+      return `
+        <div class="body-content-section body-content-section--long">
+          <div class="title">
+            <span>Link da submissão:</span>
           </div>
-        `;
-      };
-    }
+          <div class="text">
+            <a href="${ projeto.submissao }">${ projeto.submissao }</a>
+          </div>
+        </div>
+      `;
+    }   
     function _getProfessoresHTML() {
       var professores = projeto['responsavel-professor']; 
-      if (professores.length) {
-        return `
-          <div class="body-content-section body-content-section--long">
-            <div class="title">
-              <span>Professores responsaveis:</span>
-            </div>
-            <div class="list">
-              <ul>
-                ${ professores.map(professor => 
-                  `<li>${professor}</li>`).join('') }
-              </ul>
-            </div>
+      
+      if (!professores.length) return '';
+
+      return `
+        <div class="body-content-section body-content-section--long">
+          <div class="title">
+            <span>Professores responsaveis:</span>
+          </div>
+          <div class="list">
+            <ul>
+              ${ professores.map(professor => 
+                `<li>${professor}</li>`).join('') }
+            </ul>
+          </div>
+        </div>
+      `;
+    }
+
+    function _getStatusColor(project, fase) {
+      if (fase == 0) {
+        return 'green';
+      }
+      if (fase == 1 || fase == 3 || (fase == 4 && project.reuniao['datas-possiveis'].length) || fase == 5 || (fase == 2 && project['descricao-completa'])) {
+        return 'yellow';
+      }
+      if ((fase == 2 && !project['descricao-completa']) || (fase == 4 && !project.reuniao['datas-possiveis'].length)) {
+        return 'blue';
+      }
+    }
+
+    function _getEvents(project) {
+      let elements = [];
+      let labels = ['Cadastro inicial', 'Avaliação Inicial', 'Cadastro detalhado', 'Avaliação Detalhada', 'Reunião', 'Entrega'];
+      for (let i = 0; i < 6; i++) {
+
+        let classe = 'circle';
+        let statusColor;
+
+        if (i < project.fase) {
+          statusColor = 'green'
+        } else if(i == project.fase) {
+          statusColor = _getStatusColor(project, i);
+        }
+
+        if (statusColor) {
+          classe += ` circle--${statusColor}`;
+        }
+
+        let element = `<div class="${classe}"></div>`;
+
+        let dadElement = `
+          <div class="event">
+            ${ element }
+            <span class="label">
+              ${ labels[i] }
+            </span>
           </div>
         `;
-      };
+
+        elements.push(dadElement);
+      }
+      return elements.join('');
     }
 
     var popupElement = document.createElement('DIV');
@@ -129,16 +296,14 @@
       <div class="popup-wrapper" data-popup-wrapper>
         <div class="popup__body">
           <div class="body-header"> 
-            <h5 class="title">${ projeto.titulo }</h5>
+            <h5 class="title">Titulo do projeto: ${ projeto.titulo }</h5>
             <a href class="action" data-popup-close-button">Fechar informações</a>
           </div>
           <div class="body-content">
             <div class="body-content-row">
               <div class="body-content-section body-content-section--progresso">
-                <div class="title">
-                  <span>Progresso:</span>
-                </div>
                 <div class="timeline">
+                  ${ _getEvents(projeto) }
                 </div>
               </div> 
             </div>
@@ -148,13 +313,15 @@
                   <span>Descrição breve:</span>
                 </div>
                 <div class="text">
-                  <p>${ projeto.descricaobreve }</p>
+                  <p>${ projeto['descricao-breve'] }</p>
                 </div>
               </div>
-              ${_getDescricaoCompletaHTML()}
-              ${_getProfessoresHTML()}
-              ${_getSubmissaoHTML()}
-            </div> 
+            </div>
+              ${ _getProfessoresHTML() }
+              ${ _getDescricaoCompletaHTML() }
+              ${ _getInputDescricaoCompletaHTML() }
+              ${ _getSubmissaoHTML() }
+              ${ _hasFieldsToChange() ? `<button data-submit-changes>Salvar e submeter</button>` : '' }
           </div>
         </div>
       </div>
@@ -221,8 +388,8 @@
   _addProjectsToView(tbody, projetos);
 
   document
-    .querySelector('[data-project-item]')
-    .addEventListener('click', _openPopup);
+    .querySelectorAll('[data-project-item]')
+    .forEach(item => item.addEventListener('click', _openPopup));
   
   document
     .querySelector('[data-add-project-form]')

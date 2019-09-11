@@ -123,6 +123,10 @@ body {
   color: #009A19;
 }
 
+.empresa__projects table td.status.status--blue { 
+  color: #00369a;
+}
+
 .empresa__projects table td.status.status--yellow { 
   color: #FFBF1A;
 }
