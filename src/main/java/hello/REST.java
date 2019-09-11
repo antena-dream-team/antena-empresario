@@ -11,23 +11,86 @@ import org.json.*;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.result.DeleteResult;
 
+import antenaJwtAuth.Jwt;
+import antenaJwtAuth.JwtRest;
+
 import org.bson.Document;
 import spark.Request;
 import spark.Response;
 import spark.Route;
 
 
-public class REST {
+public class REST{
 
 	private Model model;
-
+	private String WhoIsauth;
 
 	public REST(Model store) {
-		this.model = store;
+		model = store;
+	}
+
+	public String getWhoIsauth() {
+		return WhoIsauth;
+	}
+
+	public void setWhoIsauth(String whoIsauth) {
+		WhoIsauth = whoIsauth;
+	}
+	
+	public void Auth() {
+		post("/Auth", new Route() {
+			@Override
+			public Object handle(final Request request, final Response response) {
+
+				try {
+					response.header("Access-Control-Allow-Origin", "*");
+					// set
+					JSONObject myjson = new JSONObject(request.body());
+					Jwt AuthEngine = new Jwt();
+					
+					
+					// try to find user
+					Document user = model.searchByEmail(myjson.getString("email"));
+					String email = user.getString("email");
+					if (email.length() > 0) {
+						return AuthEngine.GenerateJwt(email);
+					}
+					return "Bad Request";
+
+				} catch (JSONException ex) {
+					return "Real Bad Request";
+				}
+			}
+		});
+	}
+	
+	public boolean IsAuth(String body) {
+				try {
+					// setting
+					JSONObject myjson = new JSONObject(body);
+					Jwt AuthEngine = new Jwt();
+					
+					// try to find user 
+				
+					String emailOrNull = AuthEngine.verifyJwt((myjson.getString("token")));
+					
+					if(emailOrNull == null) {
+						return false;
+					}else {
+						setWhoIsauth(emailOrNull);
+						return true;
+					} 
+					
+
+				} catch (JSONException ex) {
+					return false;
+				}
+				
+		
 	}
 
 	public void home() {
-		get("/test", new Route() {
+		get("/test",  new Route() {
 			@Override
 			public Object handle(final Request request, final Response response) {
 

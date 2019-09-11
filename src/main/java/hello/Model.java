@@ -9,9 +9,9 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.FindOneAndUpdateOptions;
 import com.mongodb.client.result.DeleteResult;
+import antenaJwtAuth.IJwtModel;
 
-
-public class Model {
+public class Model implements IJwtModel{
 
 	Fongo fongo = new Fongo("mongo");
 	MongoDatabase db = fongo.getDatabase("app");
@@ -55,6 +55,12 @@ public class Model {
 	public Document searchByName(String name) {
 		MongoCollection<Document> users = db.getCollection("empresario");
     	Document found = users.find(new Document("nome", name)).first();
+    	return found;
+    }
+	
+	public Document searchByEmail(String email) {
+		MongoCollection<Document> users = db.getCollection("empresario");
+    	Document found = users.find(new Document("email", email)).first();
     	return found;
     }
 }
