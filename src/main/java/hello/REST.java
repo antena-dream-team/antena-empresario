@@ -195,4 +195,24 @@ public class REST{
             }
         });
     }
+
+    public  void getProjectByEmpresario() {
+		get("/buscaprojetoporempresario", new Route() {
+			@Override
+			public Object handle(final Request request, final Response response) {
+
+				String jsonString = request.body();
+				JSONObject jsonobj =  new JSONObject(jsonString);
+
+				FindIterable<Document> projectFound = model.getProjectByEmpresario(jsonobj.getString("email"));
+
+
+				return StreamSupport.stream(projectFound.spliterator(), false)
+						.map(Document::toJson)
+						.collect(Collectors.joining(", ", "[", "]"));
+
+			}
+		});
+	}
+
 }

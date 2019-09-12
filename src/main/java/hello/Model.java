@@ -56,4 +56,11 @@ public class Model implements IJwtModel{
     	Document found = users.find(new Document("email", email)).first();
     	return found;
     }
+
+    public FindIterable<Document> getProjectByEmpresario(String email) {
+		MongoCollection<Document> projetos = db.getCollection("projeto");
+		FindIterable<Document> found = projetos.find(new Document("email", email));
+
+		return found;
+	}
 }

@@ -33,6 +33,7 @@ public class MainServer {
         controller.deletaProjeto();
         controller.atualizaProjeto();
         controller.loginEmpresario();
+        controller.getProjectByEmpresario();
         // auth
         controller.Auth();
     }
