@@ -9,8 +9,8 @@ import com.auth0.jwt.interfaces.Payload;
 
 
 public final class Jwt {
-	 
-	private Algorithm SecretWord = Algorithm.HMAC256("antena-project");
+
+	public Algorithm SecretWord = Algorithm.HMAC256("antena-project");
 	
 	public String GenerateJwt(String email) {
 			// set key to generate jwt
@@ -22,7 +22,7 @@ public final class Jwt {
 				token = JWT.create()
 						.withClaim("email", email)
 				        .withIssuer("auth0")
-				        .sign(this.SecretWord);	
+				        .sign(this.SecretWord);
 			}catch(JWTCreationException ex){throw ex;}
 			
 			return token;

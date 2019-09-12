@@ -52,7 +52,10 @@ public class REST{
 					// try to find user
 					Document user = model.searchByEmail(myjson.getString("email"));
 					String email = user.getString("email");
-					if (email.length() > 0) {
+					String senhaDigitada = myjson.getString("senha");
+					String senhaArmazenada = user.getString("senha");
+
+					if (email.length() > 0 && senhaDigitada.equals(senhaArmazenada)) {
 						return AuthEngine.GenerateJwt(email);
 					}
 					return "Bad Request";
