@@ -51,13 +51,6 @@ public class Model implements IJwtModel{
 		return todos;
 	}
 
-	
-	public Document searchByName(String name) {
-		MongoCollection<Document> users = db.getCollection("empresario");
-    	Document found = users.find(new Document("nome", name)).first();
-    	return found;
-    }
-	
 	public Document searchByEmail(String email) {
 		MongoCollection<Document> users = db.getCollection("empresario");
     	Document found = users.find(new Document("email", email)).first();

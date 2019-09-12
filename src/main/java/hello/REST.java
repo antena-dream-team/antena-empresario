@@ -187,9 +187,11 @@ public class REST{
             @Override
             public Object handle(final Request request, final Response response) {
 
-                response.body(model.getAllProjetos().toString());
+				String jsonString = request.body();
+				JSONObject jsonobj =  new JSONObject(jsonString);
+				Document found = model.searchByEmail(jsonobj.getString("email"));
 
-                return model.getAllProjetos();
+                return found.toJson();
             }
         });
     }
