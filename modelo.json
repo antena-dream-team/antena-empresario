@@ -4,7 +4,8 @@
 		"email": "bbb",
 		"empresa": "embraboing",
 		"cpf": "vcc",
-		"senha": "ddd"
+		"senha": "ddd",
+		"ativo": false
 	},
 	"projeto": {
 		"chave": "6ads68we",

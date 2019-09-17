@@ -34,6 +34,7 @@ public class MainServer {
         controller.atualizaProjeto();
         controller.loginEmpresario();
         controller.getProjectByEmpresario();
+        controller.ativarUsuario();
         // auth
         controller.Auth();
     }

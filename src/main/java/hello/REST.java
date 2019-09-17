@@ -9,10 +9,8 @@ import java.util.stream.StreamSupport;
 import org.json.*;
 
 import com.mongodb.client.FindIterable;
-import com.mongodb.client.result.DeleteResult;
 
 import antenaJwtAuth.Jwt;
-import antenaJwtAuth.JwtRest;
 
 import org.bson.Document;
 import spark.Request;
@@ -113,9 +111,19 @@ public class REST{
 				try {
 					response.header("Access-Control-Allow-Origin", "*");
 					String jsonString = request.body();
-					model.addEmpresario(Document.parse(jsonString));
+					Document userData = Document.parse(jsonString);
 
-					return "Usuário adicionado";
+					userData.append("ativo", false);
+
+					Document found = model.searchByEmail(userData.getString("email"));
+
+					if (found == null || found.isEmpty()) {
+						model.addEmpresario(userData);
+						return userData.toJson();
+					} else {
+						return "Email já cadastrado";
+					}
+
 
 				} catch (JSONException ex) {
 					return "Deu ruim";
@@ -132,9 +140,11 @@ public class REST{
 				try {
 					response.header("Access-Control-Allow-Origin", "*");
 					String jsonString = request.body();
-					model.addProjeto(Document.parse(jsonString));
+
+					Document project = Document.parse(jsonString);
+					model.addProjeto(project);
 					
-					return "Projeto cadastrado";
+					return project.toJson();
 
 				} catch (JSONException ex) {
 					return "Deu ruim";
@@ -199,7 +209,28 @@ public class REST{
         });
     }
 
-    public  void getProjectByEmpresario() {
+    public void ativarUsuario() {
+		get("/ativar/:email", new Route() {
+			@Override
+			public Object handle(final Request request, final Response response) {
+				String email = request.params(":email");
+
+				Document found = model.searchByEmail(email);
+
+				if (!found.isEmpty()) {
+//					Jwt AuthEngine = new Jwt();
+//					AuthEngine.GenerateJwt(email);
+
+					response.redirect("http://localhost:63342/antena-empresario/antena-empresario.main/static/empresa.html?_ijt=9h8o1d56h0ung6ejgcr4pot81a");
+
+				}
+
+				return null;
+			}
+		});
+	}
+
+    public void getProjectByEmpresario() {
 		get("/buscaprojetoporempresario", new Route() {
 			@Override
 			public Object handle(final Request request, final Response response) {
@@ -213,7 +244,6 @@ public class REST{
 				return StreamSupport.stream(projectFound.spliterator(), false)
 						.map(Document::toJson)
 						.collect(Collectors.joining(", ", "[", "]"));
-
 			}
 		});
 	}
