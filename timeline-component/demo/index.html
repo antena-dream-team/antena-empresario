@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Bolinhas</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" media="screen" href="css/timeline.css" />
+  <style>
+    body {
+      height: 50vh;
+      margin: 16px;
+    }
+    section {
+      border: 2px solid;
+      min-height: 500px; 
+      display: flex;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+  <section data-timeline="1o23u1io2jdpasd"></section>
+
+  <script src="js/timeline.js"></script>
+  <script>
+
+    let targets = document.querySelectorAll('[data-timeline]');
+
+    fetch('/projetos')
+      .then(res => res.json())
+      .then(projetos => {
+
+        let timeline = Timeline({
+          endpoint: '/update-projeto'
+        });
+
+        targets.forEach(target => {
+
+          let projectId = target.getAttribute('data-timeline');
+
+          let projeto = projetos.filter(projeto => projeto._id == projectId)[0];
+
+          timeline.insertTimeline(target, projeto);
+        });
+      });
+  </script>
+</body>
+</html>
