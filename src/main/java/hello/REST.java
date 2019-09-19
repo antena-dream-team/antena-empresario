@@ -6,6 +6,7 @@ import static spark.Spark.post;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.json.*;
 
 import com.mongodb.client.FindIterable;
@@ -52,11 +53,14 @@ public class REST{
 					String email = user.getString("email");
 					String senhaDigitada = myjson.getString("senha");
 					String senhaArmazenada = user.getString("senha");
+					boolean usuarioAtivo = user.getBoolean("ativo");
 
-					if (email.length() > 0 && senhaDigitada.equals(senhaArmazenada)) {
+					if (email.length() > 0 && senhaDigitada.equals(senhaArmazenada) && usuarioAtivo) {
+						response.status(200);
 						return AuthEngine.GenerateJwt(email);
 					}
-					return "Bad Request";
+					response.status(403);
+					return "Usuário inexistente ou inativo";
 
 				} catch (JSONException ex) {
 					return "Real Bad Request";
@@ -119,6 +123,7 @@ public class REST{
 
 					if (found == null || found.isEmpty()) {
 						model.addEmpresario(userData);
+						new emailService(userData).sendSimpleEmail();
 						return userData.toJson();
 					} else {
 						return "Email já cadastrado";

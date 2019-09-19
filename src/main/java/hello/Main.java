@@ -9,11 +9,12 @@ import antenaJwtAuth.Jwt;
 public class Main {
 
 	public static void main(String[] args) {
-		
-		Model model = new Model();
-		
-	    model.addProjeto(Document.parse("{'name':'pedro', 'password':'12345', 'diferentao': 'diferenciado'}"));
-		model.getAllProjetos();
+
+
+//		Model model = new Model();
+//
+//	    model.addProjeto(Document.parse("{'name':'pedro', 'password':'12345', 'diferentao': 'diferenciado'}"));
+//		model.getAllProjetos();
 		
 		//Document pedro = model.searchByName("pedro");
 		//pedro.put("name", "pedrao");
@@ -22,7 +23,7 @@ public class Main {
 		
 		//model.updateProjeto(pedro);
 		//model.getAllProjetos();
-		Jwt keycontrol = new Jwt();
+//		Jwt keycontrol = new Jwt();
 		
 		 //testes do jwt
 		//String ola = keycontrol.GenerateJwt();

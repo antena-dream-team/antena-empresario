@@ -22,7 +22,10 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.+'
     compile group: 'com.github.fakemongo', name: 'fongo', version: '2.1.0'
     implementation 'com.auth0:java-jwt:3.8.2'
-	
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-email
+    compile group: 'org.apache.commons', name: 'commons-email', version: '1.5'
+
+
 }
 
 jar {
