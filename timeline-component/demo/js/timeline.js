@@ -1,4 +1,8 @@
-var Timeline = function(options) {
+var Timeline = function(endpoint) {
+
+  if (!endpoint) {
+    throw new Error('É preciso de um endpoint de salvamento de projeto para instanciar Timeline');
+  }
 
   function _createPopupElement(projeto, inputsHTML) {
 
@@ -64,7 +68,7 @@ var Timeline = function(options) {
         } 
         else return; 
 
-        fetch(options.endpoint, {
+        fetch(endpoint, {
           method: 'POST',
           body: JSON.stringify(newProject),
           headers: {

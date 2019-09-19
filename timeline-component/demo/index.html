@@ -31,9 +31,7 @@
       .then(res => res.json())
       .then(projetos => {
 
-        let timeline = Timeline({
-          endpoint: '/update-projeto'
-        });
+        let timeline = new Timeline('/update-projeto');
 
         targets.forEach(target => {
 
