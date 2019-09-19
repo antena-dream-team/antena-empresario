@@ -8,3 +8,6 @@ bin
 .project
 /bin
 .idea
+
+timeline-component/demo/node_modules/
+timeline-component/demo/package-lock.json
