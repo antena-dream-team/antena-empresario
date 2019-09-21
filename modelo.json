@@ -10,17 +10,17 @@
 	"projeto": {
 		"_id": "6ads68we",
 		"titulo": "a",
-		"descricao_breve": "a",
-		"link_externo_1": "",
-		"link_externo_2": "",
-		"descricao_completa": "a",
-		"descricao_tecnologias": "",
+		"descricao-breve": "a",
+		"link-externo-1": "",
+		"link-externo-2": "",
+		"descricao-completa": "a",
+		"descricao-tecnologias": "",
 		"fase": 4,
 		"reuniao": {
 			"data": "",
 			"horario": "",
 			"local": "",
-			"datas_possiveis": [
+			"datas-possiveis": [
 				{
 					"data": "02/03/2020",
 					"hora": "13:50"
@@ -33,20 +33,20 @@
 		},
 		"entregas": [
 			{
-				"aluno_responsavel": "responsavel@email.com",
+				"aluno-responsavel": "responsavel@email.com",
 				"alunos": [
 					"outros@email.com"
 				],
-				"link_repositorio": "http://repo.com.br",
-				"link_cloud": "http://cloud.com",
+				"link-repositorio": "http://repo.com.br",
+				"link-cloud": "http://cloud.com",
 				"comentario": "sla"
 			}
 		],
-		"responsavel_cadi": "suamae@hotmail.com",
-		"responsavel_professor": [
+		"responsavel-cadi": "suamae@hotmail.com",
+		"responsavel-professor": [
 			"seupai@yahoo.com"
 		],
-		"responsavel_empresario": "empresario@email",
+		"responsavel-empresario": "empresario@email",
 		"alunos": [
 			"email@alunos.com.br"
 		]

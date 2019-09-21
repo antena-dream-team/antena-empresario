@@ -13,7 +13,7 @@
   background-color: #d5d5d5;
   width: calc(100% - 70px);
   height: 3px;
-  top: 25%;
+  top: 20px;
   left: 35px;
   z-index: -1;
 }
@@ -115,6 +115,11 @@
 }
 
 @media(max-width: 650px) {
+  
+  .timeline::before {
+    top: 12px;
+  }
+
   .timeline__event {
     width: 30px;
   }
@@ -132,7 +137,7 @@
 @media(max-width: 400px) {
 
   .timeline::before {
-    top: 25%;
+    top: 4px;
     width: calc(100% - 40px);
     left: 20px;
   }

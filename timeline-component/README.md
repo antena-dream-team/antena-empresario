@@ -19,7 +19,7 @@ var timeline = new Timeline('/salvar-projeto');
 ```javascript
 var projeto; // Garanta que ele estará igual ao modelo.json
 var elementoExemplo = document.querySelector('div');
-timeline.inserTimeline(elementoExemplo, projeto);
+timeline.insertTimeline(elementoExemplo, projeto);
 ```
 
 5. Com isso a timeline ja deve estar aparecendo na tela quando carregada.
