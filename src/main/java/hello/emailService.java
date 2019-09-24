@@ -6,8 +6,6 @@ import org.bson.Document;
 
 import java.util.Base64;
 
-// Java program to send simple email using apache commons email
-// Uses the Gmail SMTP servers
 public class emailService {
     private static final String HOST = "smtp.gmail.com";
     private static final int PORT = 465;
@@ -20,7 +18,6 @@ public class emailService {
     }
 
     public void sendSimpleEmail() {
-        // TODO: Criar a rota que ativa o user a partir do email
         String userName = "sendEmailMD@gmail.com";
         String password = "210418md";
 

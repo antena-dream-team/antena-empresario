@@ -31,7 +31,6 @@ public class Model implements IJwtModel{
 		empresarios.insertOne(empresario);
 	}
 	
-	
 	public Document updateProjeto(Document projeto) {
 		MongoCollection<Document> projetos = db.getCollection("projeto");
     	BasicDBObject query = new BasicDBObject();
@@ -55,7 +54,6 @@ public class Model implements IJwtModel{
 		for(Document projeto: todos) {
 			System.out.println(projeto);
 		}
-		
 		return todos;
 	}
 

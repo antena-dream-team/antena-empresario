@@ -8,16 +8,11 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import org.json.*;
-
 import com.mongodb.client.FindIterable;
-
-import antenaJwtAuth.Jwt;
-
 import org.bson.Document;
 import spark.Request;
 import spark.Response;
 import spark.Route;
-
 
 public class REST {
 
@@ -36,20 +31,21 @@ public class REST {
 		WhoIsauth = whoIsauth;
 	}
 	
-	public void Auth() {
+	public void Auth() { // Gera um token de autenticação para o usuário
 		post("/Auth", new Route() {
 			@Override
 			public Object handle(final Request request, final Response response) {
 
 				try {
 					response.header("Access-Control-Allow-Origin", "*");
+
 					// set
 					JSONObject myjson = new JSONObject(request.body());
 					Jwt AuthEngine = new Jwt();
 					
-					
 					// try to find user
 					Document user = model.searchByEmail(myjson.getString("email"));
+
 					String email = user.getString("email");
 					String senhaDigitada = myjson.getString("senha");
 					String senhaArmazenada = user.getString("senha");
@@ -63,20 +59,19 @@ public class REST {
 					return "Usuário inexistente ou inativo";
 
 				} catch (JSONException ex) {
-					return "Real Bad Request";
+					return "erro 500 " + ex;
 				}
 			}
 		});
 	}
 	
-	public boolean IsAuth(String body) {
+	public boolean IsAuth(String body) { // Verifica se o usuário está autenticado
 		try {
 			// setting
 			JSONObject myjson = new JSONObject(body);
 			Jwt AuthEngine = new Jwt();
 
 			// try to find user
-
 			String emailOrNull = AuthEngine.verifyJwt((myjson.getString("token")));
 
 			if(emailOrNull == null) {
@@ -86,30 +81,15 @@ public class REST {
 				return true;
 			}
 
-
 		} catch (JSONException ex) {
 			return false;
 		}
 	}
 
-	public void home() {
-		get("/test",  new Route() {
-			@Override
-			public Object handle(final Request request, final Response response) {
-
-				response.header("Access-Control-Allow-Origin", "*");
-				JSONObject jsonobj = new JSONObject();
-				jsonobj.put("Ola!", "Amigo!");
-				return jsonobj;
-			}
-		});
-	}
-
-	public void cadastroEmpresario() {
+	public void cadastroEmpresario() { // Cadastra um novo usuario
 		post("/cadastroempresario", new Route() {
 			@Override
 			public Object handle(final Request request, final Response response) {
-
 				try {
 					response.header("Access-Control-Allow-Origin", "*");
 					String jsonString = request.body();
@@ -126,20 +106,17 @@ public class REST {
 					} else {
 						return "Email já cadastrado";
 					}
-
-
 				} catch (JSONException ex) {
-					return "Deu ruim";
+					return "erro 500 " + ex;
 				}
 			}
 		});
 	}
 
-	public void cadastroProjeto() {
+	public void cadastroProjeto() { // Cadastra um novo projeto
 		post("/cadastroprojeto", new Route() {
 			@Override
 			public Object handle(final Request request, final Response response) {
-
 				try {
 					response.header("Access-Control-Allow-Origin", "*");
 					String jsonString = request.body();
@@ -148,34 +125,30 @@ public class REST {
 					model.addProjeto(project);
 					
 					return project.toJson();
-
 				} catch (JSONException ex) {
-					return "Deu ruim";
+					return "erro 500 " + ex;
 				}
 			}
 		});
 	}
 	
-	public void deletaProjeto() {
+	public void deletaProjeto() { // Apaga um projeto
 		post("/deletaProjeto", new Route() {
 			@Override
 			public Boolean handle(final Request request, final Response response) {
-
 				try {
 					response.header("Access-Control-Allow-Origin", "*");
 					return model.deleteProject( Document.parse( request.body() ) ).getDeletedCount() > 0;
 
 				}catch(Exception ex){ throw ex; }
-
 			}
 		});
 	}
 
-	public void atualizaProjeto() {
+	public void atualizaProjeto() { // Atualiza um projeto
 		post("/atualizaProjeto", new Route() {
 			@Override
 			public Object handle(final Request request, final Response response) {
-
 				try {
 					response.header("Access-Control-Allow-Origin", "*");
 					return model.updateProjeto(Document.parse( request.body() )) == null? "projeto n�o encontrado": "projeto deletado";
@@ -184,11 +157,10 @@ public class REST {
 		});
 	}
 
-	public void getProjetos() {
+	public void getProjetos() { // Lista os projetos
 		get("/projetos", new Route() {
 			@Override
 			public Object handle(final Request request, final Response response) {
-
 				 FindIterable<Document> projectsFound = model.getAllProjetos();
 
 				 return StreamSupport.stream(projectsFound.spliterator(), false)
@@ -198,49 +170,41 @@ public class REST {
 		});
 	}
 
-    public void loginEmpresario() {
+    public void loginEmpresario() { // Faz requisição de login
         post("/loginempresario", new Route() {
             @Override
             public Object handle(final Request request, final Response response) {
-
 				String jsonString = request.body();
 				JSONObject jsonobj =  new JSONObject(jsonString);
 				Document found = model.searchByEmail(jsonobj.getString("email"));
-
                 return found.toJson();
             }
         });
     }
 
-    public void ativarUsuario() {
+    public void ativarUsuario() { // é chamado quando o usuario recebe o link de ativação no email
 		get("/active/:email", new Route() {
 			@Override
 			public Object handle(final Request request, final Response response) {
 				String email = new String(Base64.getDecoder().decode ( request.params("email")  )) ;
-
 				Document found = model.searchByEmail(email);
 				found.replace("ativo", true);
 				model.updateEmpresario(found);
 				if (!found.isEmpty()) {
 					response.redirect("http://localhost:63342/antena-empresario/antena-empresario.main/static/index.html");
 				}
-
 				return null;
 			}
 		});
 	}
 
-    public void getProjectByEmpresario() {
+    public void getProjectByEmpresario() { // Lista os projetos do empresario
 		get("/buscaprojetoporempresario", new Route() {
 			@Override
 			public Object handle(final Request request, final Response response) {
-
 				String jsonString = request.body();
 				JSONObject jsonobj =  new JSONObject(jsonString);
-
 				FindIterable<Document> projectFound = model.getProjectByEmpresario(jsonobj.getString("email"));
-
-
 				return StreamSupport.stream(projectFound.spliterator(), false)
 						.map(Document::toJson)
 						.collect(Collectors.joining(", ", "[", "]"));
