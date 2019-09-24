@@ -6,7 +6,6 @@ import static spark.Spark.post;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.json.*;
 
 import com.mongodb.client.FindIterable;
@@ -19,7 +18,7 @@ import spark.Response;
 import spark.Route;
 
 
-public class REST{
+public class REST {
 
 	private Model model;
 	private String WhoIsauth;
@@ -70,28 +69,26 @@ public class REST{
 	}
 	
 	public boolean IsAuth(String body) {
-				try {
-					// setting
-					JSONObject myjson = new JSONObject(body);
-					Jwt AuthEngine = new Jwt();
-					
-					// try to find user 
-				
-					String emailOrNull = AuthEngine.verifyJwt((myjson.getString("token")));
-					
-					if(emailOrNull == null) {
-						return false;
-					}else {
-						setWhoIsauth(emailOrNull);
-						return true;
-					} 
-					
+		try {
+			// setting
+			JSONObject myjson = new JSONObject(body);
+			Jwt AuthEngine = new Jwt();
 
-				} catch (JSONException ex) {
-					return false;
-				}
-				
-		
+			// try to find user
+
+			String emailOrNull = AuthEngine.verifyJwt((myjson.getString("token")));
+
+			if(emailOrNull == null) {
+				return false;
+			}else {
+				setWhoIsauth(emailOrNull);
+				return true;
+			}
+
+
+		} catch (JSONException ex) {
+			return false;
+		}
 	}
 
 	public void home() {
@@ -165,7 +162,7 @@ public class REST{
 
 				try {
 					response.header("Access-Control-Allow-Origin", "*");
-					return model.deleteProject( Document.parse( request.body() ) ).getDeletedCount() > 0 ? true: false;
+					return model.deleteProject( Document.parse( request.body() ) ).getDeletedCount() > 0;
 
 				}catch(Exception ex){ throw ex; }
 
@@ -252,5 +249,4 @@ public class REST{
 			}
 		});
 	}
-
 }

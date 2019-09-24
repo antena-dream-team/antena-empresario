@@ -1,4 +1,8 @@
-var Timeline = function(options) {
+var Timeline = function (endpoint) {
+
+  if (!endpoint) {
+    throw new Error('É preciso de um endpoint de salvamento de projeto para instanciar Timeline');
+  }
 
   function _createPopupElement(projeto, inputsHTML) {
 
@@ -13,7 +17,7 @@ var Timeline = function(options) {
           </div>
           <div class="body-content">
             <form method="POST">
-              ${ inputsHTML }
+              ${ inputsHTML}
               <button type="submit" class="btn-submit">Enviar</button>
             </form>
           </div>
@@ -31,16 +35,15 @@ var Timeline = function(options) {
     var formElement = popupElement.querySelector('form');
 
     formElement
-      .addEventListener('submit', function (event) {
-        event.preventDefault();
-        
+      .addEventListener('submit', function () {
+
         var descricaoCompleta = formElement.querySelector('[data-descricao-completa]');
-        var descricaoTecnologia = formElement.querySelector('[data-descricao-tecnologia]');
+        var descricaoTecnologia = formElement.querySelector('[data-descricao-tecnologias]');
         var linkExterno = formElement.querySelector('[data-link-externo]');
         var linkExterno2 = formElement.querySelector('[data-link-externo-2]');
-        
+
         var dataReuniao = formElement.querySelector('[data-reuniao]');
-        
+
         var newProject = { ...projeto };
 
         if (descricaoCompleta && descricaoTecnologia) {
@@ -51,25 +54,31 @@ var Timeline = function(options) {
             'link-externo-1': linkExterno ? linkExterno.value : '',
             'link-externo-2': linkExterno2 ? linkExterno2.value : ''
           };
-        } 
+        }
         else if (dataReuniao) {
           var reuniaoData = dataReuniao.value.split('-');
           newProject = {
             ...newProject,
+            fase: 5,
             reuniao: {
               data: reuniaoData[0],
               horario: reuniaoData[1]
             }
           };
-        } 
-        else return; 
+        }
+        else return;
 
-        /*fetch(options.endpoint, {
+        fetch(endpoint, {
           method: 'POST',
-          body: newProject
-        });*/
+          body: JSON.stringify(newProject),
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          }
+        })
+          .then(() => location.reload());
 
-        console.log(newProject); 
+        console.log(newProject);
         popupElement.remove();
       });
 
@@ -85,15 +94,15 @@ var Timeline = function(options) {
 
     return popupElement;
   }
-  
+
   function insertTimeline(target, projeto) {
-    
+
     function _getIcon(iconName) {
       return '';
     }
 
     function _getEventClass(fase) {
-      
+
       var base = 'event-circle--';
 
       if (fase.isActive)
@@ -110,19 +119,19 @@ var Timeline = function(options) {
       return `
         <div class="form-section">
           <label>Descrição Completa</label>
-          <textarea data-descricao-completa></textarea>
+          <textarea data-descricao-completa>${projeto['descricao-completa']}</textarea>
         </div>
         <div class="form-section">
           <label>Descrição Tecnologia</label>
-          <textarea data-descricao-tecnologia></textarea>
+          <textarea data-descricao-tecnologias>${projeto['descricao-tecnologias']}</textarea>
         </div>
         <div class="form-section">
           <label>Link externo:</label>
-          <input type="text" data-link-externo />
+          <input type="text" data-link-externo value="${projeto['link-externo-1']}"/>
         </div>
         <div class="form-section">
           <label>Link externo 2:</label>
-          <input type="text" data-link-externo-2 />
+          <input type="text" data-link-externo-2 value="${projeto['link-externo-2']}" />
         </div>
       `;
     }
@@ -168,8 +177,8 @@ var Timeline = function(options) {
         icon: _getIcon(''),
         title: 'Cadastro Detalhado',
         isActive: projeto.fase > 2,
-        isPending: projeto.fase == 2 && projeto['descricao-completa'] && projeto['descricao-tecnologia'],
-        isWaitingForInput: projeto.fase == 2 && (!projeto['descricao-completa'] || !projeto['descricao-tecnologia'])
+        isPending: projeto.fase == 2 && projeto['descricao-completa'] && projeto['descricao-tecnologias'],
+        isWaitingForInput: projeto.fase == 2 && (!projeto['descricao-completa'] || !projeto['descricao-tecnologias'])
       },
       {
         icon: _getIcon(''),
@@ -193,29 +202,29 @@ var Timeline = function(options) {
         isWaitingForInput: false
       },
     ];
-    
+
     target.innerHTML = `
-      <div class="timeline">
-        ${ 
-            fases.map((fase, index) =>
-              `<div 
+      <div class="timeline fase-${ projeto.fase}">
+        ${
+      fases.map((fase, index) =>
+        `<div 
                 class="timeline__event" 
-                data-open-to-input=${ fase.isWaitingForInput } 
-                data-popup-modelo=${ index }>
-                <div class="event-circle ${ _getEventClass(fase) }">
-                  ${ fase.icon }
+                data-open-to-input=${ fase.isWaitingForInput} 
+                data-popup-modelo=${ index}>
+                <div class="event-circle ${ _getEventClass(fase)}">
+                  ${ fase.icon}
                 </div>
-                <label class="event-label">${ fase.title }</label>
+                <label class="event-label">${ fase.title}</label>
               </div>`
-            ).join('')
-        }
+      ).join('')
+      }
       </div>
     `;
 
     target
       .querySelectorAll('[data-open-to-input=true]')
-      .forEach(clicavel => 
-        clicavel.addEventListener('click', function() {
+      .forEach(clicavel =>
+        clicavel.addEventListener('click', function () {
           var modelo = clicavel.getAttribute('data-popup-modelo');
           _openInputPopup(modelo);
         })
@@ -224,5 +233,5 @@ var Timeline = function(options) {
 
   return {
     insertTimeline
-  }; 
+  };
 };
