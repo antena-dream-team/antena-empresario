@@ -27,7 +27,6 @@ public class emailService {
         String fromAddress="sendEmailMD@gmail.com";
 
         try {
-
             String basemeiaquatro = Base64.getEncoder().encodeToString(this.destinatario.getString("email").getBytes());
 
             Email simpleEmail = new SimpleEmail();
@@ -37,7 +36,7 @@ public class emailService {
             simpleEmail.setSSLOnConnect(SSL_FLAG);
             simpleEmail.setFrom(fromAddress);
             simpleEmail.setSubject("Antenas - Sua confirmação de conta ");
-            simpleEmail.setMsg("Por favor, para confirmar sua conta, clique no link: http://127.0.0.1/active/"+basemeiaquatro);
+            simpleEmail.setMsg("Por favor, para confirmar sua conta, clique no link: http://127.0.0.1:8081/active/"+basemeiaquatro);
             simpleEmail.addTo(this.destinatario.getString("email"));
             simpleEmail.send();
         }catch(Exception ex){

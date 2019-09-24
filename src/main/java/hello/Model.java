@@ -40,6 +40,14 @@ public class Model implements IJwtModel{
     	return projetos.findOneAndUpdate(query, newDocument, (new FindOneAndUpdateOptions()).upsert(true));
 	}
 
+	public Document updateEmpresario(Document empresario) {
+		MongoCollection<Document> projetos = db.getCollection("empresario");
+		BasicDBObject query = new BasicDBObject();
+		query.append("_id", empresario.get("_id"));
+		Bson newDocument = new Document("$set", empresario);
+		return projetos.findOneAndUpdate(query, newDocument, (new FindOneAndUpdateOptions()).upsert(true));
+	}
+
 	public FindIterable<Document> getAllProjetos() {
 		MongoCollection<Document> projetos = db.getCollection("projeto");
 		FindIterable<Document> todos = projetos.find();

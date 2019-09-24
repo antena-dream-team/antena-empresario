@@ -3,6 +3,7 @@ package hello;
 import static spark.Spark.get;
 import static spark.Spark.post;
 
+import java.util.Base64;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -212,19 +213,16 @@ public class REST {
     }
 
     public void ativarUsuario() {
-		get("/ativar/:email", new Route() {
+		get("/active/:email", new Route() {
 			@Override
 			public Object handle(final Request request, final Response response) {
-				String email = request.params(":email");
+				String email = new String(Base64.getDecoder().decode ( request.params("email")  )) ;
 
 				Document found = model.searchByEmail(email);
-
+				found.replace("ativo", true);
+				model.updateEmpresario(found);
 				if (!found.isEmpty()) {
-//					Jwt AuthEngine = new Jwt();
-//					AuthEngine.GenerateJwt(email);
-
-					response.redirect("http://localhost:63342/antena-empresario/antena-empresario.main/static/empresa.html?_ijt=9h8o1d56h0ung6ejgcr4pot81a");
-
+					response.redirect("http://localhost:63342/antena-empresario/antena-empresario.main/static/index.html");
 				}
 
 				return null;

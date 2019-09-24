@@ -21,7 +21,7 @@ public class Main {
 		
 		//System.out.println(pedro.get("name"));
 		
-		//model.updateProjeto(pedro);
+//		model.updateProjeto(pedro);
 		//model.getAllProjetos();
 //		Jwt keycontrol = new Jwt();
 		
