@@ -1,6 +1,29 @@
 (function() {
 
+  let token = localStorage.getItem('token');
   let projects;
+  let empresario;
+
+  if (!token) {
+    location.replace('/');
+  }
+  else {
+    $.post("/is-auth", JSON.stringify({ token }), 'json')
+        .done(function(userInfo){
+          empresario = JSON.parse(userInfo);
+          $('[data-empresario-nome]').text(` | ${ empresario.nome }`);
+
+          $.get('/buscaprojetoporempresario', empresario.email)
+              .done(function(projetos){
+                projects = JSON.parse(projetos);
+                insertProjectsOnTable(projects);
+              });
+        })
+        .fail(function () {
+          localStorage.removeItem('token');
+          location.replace('/');
+        });
+  }
 
   let timeline = new Timeline('/atualizaProjeto');
 
@@ -178,7 +201,8 @@
     let inputsData = formNewProject.serializeArray();
     let project = {
       ...defaultModel,
-      fase: 1
+      fase: 1,
+      'responsavel-empresario': empresario.email
     };
 
     inputsData.forEach(input => {
@@ -190,18 +214,17 @@
       url: '/cadastroprojeto',
       data: JSON.stringify(project),
       success: function() {
-        console.log('foi');
+        location.reload();
       },
       dataType: 'json'
     });
   });
 
-  $.ajax({
-    type: "GET",
-    url: '/projetos',
-    success: function(data) {
-      projects = JSON.parse(data);
-      insertProjectsOnTable(projects);
-    }
+  $('[data-empresario-logout]').click(function(e){
+
+    e.preventDefault();
+
+    localStorage.removeItem('token');
+    location.replace('/');
   })
 })();

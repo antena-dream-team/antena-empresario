@@ -57,6 +57,16 @@ public class Model implements IJwtModel{
 		return todos;
 	}
 
+	public FindIterable<Document> getAllEmpresarios() {
+		MongoCollection<Document> empresarios = db.getCollection("empresario");
+		FindIterable<Document> todos = empresarios.find();
+
+		for(Document empresario: todos) {
+			System.out.println(empresario);
+		}
+		return todos;
+	}
+
 	public Document searchByEmail(String email) {
 		MongoCollection<Document> users = db.getCollection("empresario");
     	Document found = users.find(new Document("email", email)).first();
@@ -65,7 +75,7 @@ public class Model implements IJwtModel{
 
     public FindIterable<Document> getProjectByEmpresario(String email) {
 		MongoCollection<Document> projetos = db.getCollection("projeto");
-		FindIterable<Document> found = projetos.find(new Document("email", email));
+		FindIterable<Document> found = projetos.find(new Document("responsavel-empresario", email));
 
 		return found;
 	}

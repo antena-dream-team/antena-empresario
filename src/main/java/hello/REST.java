@@ -65,25 +65,40 @@ public class REST {
 		});
 	}
 	
-	public boolean IsAuth(String body) { // Verifica se o usuário está autenticado
-		try {
-			// setting
-			JSONObject myjson = new JSONObject(body);
-			Jwt AuthEngine = new Jwt();
+	public void IsAuth() { // Verifica se o usuário está autenticado
+		post("/is-auth", new Route() {
+			@Override
+			public Object handle(final Request request, final Response response) {
 
-			// try to find user
-			String emailOrNull = AuthEngine.verifyJwt((myjson.getString("token")));
+				try {
+					// setting
+					JSONObject myjson = new JSONObject(request.body());
+					Jwt AuthEngine = new Jwt();
 
-			if(emailOrNull == null) {
-				return false;
-			}else {
-				setWhoIsauth(emailOrNull);
-				return true;
+					// try to find user
+					String emailOrNull = AuthEngine.verifyJwt((myjson.getString("token")));
+					if(emailOrNull == null) {
+						response.status(404);
+						return false;
+					}
+					else {
+
+						Document empresario = model.searchByEmail(emailOrNull);
+
+						if (empresario == null) {
+							response.status(404);
+							return false;
+						}
+
+						response.status(200);
+						return empresario.toJson();
+					}
+
+				} catch (JSONException ex) {
+					return false;
+				}
 			}
-
-		} catch (JSONException ex) {
-			return false;
-		}
+		});
 	}
 
 	public void cadastroEmpresario() { // Cadastra um novo usuario
@@ -170,6 +185,19 @@ public class REST {
 		});
 	}
 
+	public void getEmpresarios() { // Lista os empresarios
+		get("/empresarios", new Route() {
+			@Override
+			public Object handle(final Request request, final Response response) {
+				 FindIterable<Document> empresariosFound = model.getAllEmpresarios();
+
+				 return StreamSupport.stream(empresariosFound.spliterator(), false)
+			        .map(Document::toJson)
+			        .collect(Collectors.joining(", ", "[", "]"));
+			}
+		});
+	}
+
     public void loginEmpresario() { // Faz requisição de login
         post("/loginempresario", new Route() {
             @Override
@@ -177,7 +205,15 @@ public class REST {
 				String jsonString = request.body();
 				JSONObject jsonobj =  new JSONObject(jsonString);
 				Document found = model.searchByEmail(jsonobj.getString("email"));
-                return found.toJson();
+
+				if (found == null) {
+					response.status(404);
+					return null;
+				}
+				else {
+					response.status(200);
+					return found.toJson();
+				}
             }
         });
     }
@@ -202,9 +238,8 @@ public class REST {
 		get("/buscaprojetoporempresario", new Route() {
 			@Override
 			public Object handle(final Request request, final Response response) {
-				String jsonString = request.body();
-				JSONObject jsonobj =  new JSONObject(jsonString);
-				FindIterable<Document> projectFound = model.getProjectByEmpresario(jsonobj.getString("email"));
+				String email = request.queryString();
+				FindIterable<Document> projectFound = model.getProjectByEmpresario(email);
 				return StreamSupport.stream(projectFound.spliterator(), false)
 						.map(Document::toJson)
 						.collect(Collectors.joining(", ", "[", "]"));

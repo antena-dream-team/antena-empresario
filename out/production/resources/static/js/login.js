@@ -1,4 +1,5 @@
 $(document).ready(function() {
+
     var login = document.getElementById('login');
     var cadastro = document.getElementById('cadastro');
     
@@ -20,21 +21,19 @@ $("#btn-cadastro").click(function(event) {
 
     event.preventDefault();
 
-//    nome = $("#nome-cadastro").val();
-//    email = $("#email-cadastro").val();
-//    cpf = $("#cpf-cadastro").val();
-//    senha = $("#senha-cadastro").val();
+    var json = {
+      nome: $("#nome-cadastro").val(),
+      email: $("#email-cadastro").val(),
+      cpf: $("#cpf-cadastro").val(),
+      senha: $("#senha-cadastro").val()
+    }
 
-    json = {
-           nome: $("#nome-cadastro").val(),
-           email: $("#email-cadastro").val(),
-           cpf: $("#cpf-cadastro").val(),
-           senha: $("#senha-cadastro").val()
-       }
+    var jsonString = JSON.stringify(json);
 
-    jsonString = JSON.stringify(json);
-
-    $.post("/cadastroempresario",jsonString,'json');
+    $.post("/cadastroempresario", jsonString, 'json')
+        .done(function(){
+            location.reload();
+        });
 })
 
 $('[data-login-form]').on('submit', function(event){
@@ -44,10 +43,14 @@ $('[data-login-form]').on('submit', function(event){
     var pass = event.currentTarget.querySelector('#senha-login').value;
 
     var data = {
-        email, pass
+        email, senha: pass
     };
 
-    $.post("/loginempresario", JSON.stringify(data), 'json');
+    $.post("/Auth", JSON.stringify(data), 'json')
+        .done(function(token){
+            localStorage.setItem('token', token);
+            location.replace('/empresa.html');
+        })
 });
 
 function abrePopupLogin(event) {
