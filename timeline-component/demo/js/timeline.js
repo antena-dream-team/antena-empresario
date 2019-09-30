@@ -7,12 +7,9 @@ var Timeline = function (endpoint) {
     throw new Error('É preciso que o Bootstrap 4 (CSS e JS) e o JQuery esteja sendo importado');
   }
 
-  $(document.body).prepend(_getInitialModalHTML());
-
-
-  function _getInitialModalHTML() {
+  function _getInitialModalHTML(projeto) {
     return `
-      <div class="modal fade" id="modal-extra" tabindex="-1" role="dialog" aria-labelledby="modal-label" aria-hidden="true">
+      <div class="modal fade" id="modal-extra-${ projeto._id }" tabindex="-1" role="dialog" aria-labelledby="modal-label" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -34,16 +31,18 @@ var Timeline = function (endpoint) {
 
   function _customPopupElement(projeto, inputsHTML) {
 
+    let modalExtra = `#modal-extra-${ projeto._id } `;
+
     $('#modal-label').text(projeto.titulo);
 
-    $('.modal-body').html(inputsHTML);
+    $(modalExtra + '.modal-body').html(inputsHTML);
 
-    if ([2,4].indexOf(projeto.fase) != -1) {
-      $('.modal-footer').append(`
+    if ([2, 4].indexOf(projeto.fase) != -1) {
+      $(modalExtra + '.modal-footer').append(`
         <button type="button" class="btn btn-primary" data-send-changes>Enviar alterações</button>
       `);
 
-      $('[data-send-changes]').click(function(e) {
+      $('[data-send-changes]').click(function (e) {
 
         let newProject = { ...projeto };
 
@@ -51,17 +50,15 @@ var Timeline = function (endpoint) {
 
           let descCompleta = $('[data-descricao-completa]').val();
           let descTecnologias = $('[data-descricao-tecnologias]').val();
-          let linkExterno1 = $('[data-link-externo-1]').val();
           let linkExterno2 = $('[data-link-externo-2]').val();
 
           if (descCompleta && descTecnologias) {
-            
+
             newProject = {
               ...newProject,
               fase: 3,
               'descricao-completa': descCompleta,
               'descricao-tecnologias': descTecnologias,
-              'link-externo-1': linkExterno1,
               'link-externo-2': linkExterno2
             };
 
@@ -72,7 +69,7 @@ var Timeline = function (endpoint) {
         else if (projeto.fase === 4) {
 
           let horarioReuniao = $('[data-reuniao]').val().split('-');
-          
+
           if (horarioReuniao) {
 
             newProject = {
@@ -82,7 +79,7 @@ var Timeline = function (endpoint) {
                 data: reuniaoData[0],
                 horario: reuniaoData[1]
               }
-            }; 
+            };
 
             $.post(endpoint, JSON.stringify(newProject))
               .done(() => location.reload());
@@ -129,10 +126,6 @@ var Timeline = function (endpoint) {
             <textarea data-descricao-tecnologias class="form-control" id="desc-tecnologias" rows="3">${projeto['descricao-tecnologias']}</textarea>
           </div>
           <div class="form-group">
-            <label for="link-externo-1">Link externo 1:</label>
-            <input data-link-externo type="text" class="form-control" value="${projeto['link-externo-1']}" id="link-externo-1">
-          </div>
-          <div class="form-group">
             <label for="link-externo-2">Link externo 2:</label>
             <input data-link-externo-2 type="text" class="form-control" value="${projeto['link-externo-2']}" id="link-externo-2">
           </div>
@@ -146,9 +139,9 @@ var Timeline = function (endpoint) {
             <label for="data-reuniao">Escolha uma data para a reunião:</label>
             <select data-reuniao id="data-reuniao" class="form-control">
               ${
-                projeto.reuniao['datas-possiveis'].map(dataHora => 
-                  `<option value="${ dataHora.data }-${ dataHora.hora }">${ dataHora.data } - ${ dataHora.hora }</option>`)
-              }
+        projeto.reuniao['datas-possiveis'].map(dataHora =>
+          `<option value="${dataHora.data}-${dataHora.hora}">${dataHora.data} - ${dataHora.hora}</option>`)
+        }
             </select>
           </div>
         </form>
@@ -169,18 +162,18 @@ var Timeline = function (endpoint) {
           </thead>
           <tbody>
             ${
-              projeto.entregas.map((entrega, index) => 
-                `
+        projeto.entregas.map((entrega, index) =>
+          `
                   <tr>
-                    <th scope="row">${ index + 1 }</th>
-                    <td>${ entrega['aluno-responsavel'] }</td>
-                    <td><a href="${ entrega['link-repositorio'] }" target="_blank">${ entrega['link-repositorio'] }</a></td>
-                    <td><a href="${ entrega['link-cloud'] }" target="_blank">${ entrega['link-cloud'] }</a></td>
-                    <td>${ entrega.comentario }</td>
+                    <th scope="row">${ index + 1}</th>
+                    <td>${ entrega['aluno-responsavel']}</td>
+                    <td><a href="${ entrega['link-repositorio']}" target="_blank">${entrega['link-repositorio']}</a></td>
+                    <td><a href="${ entrega['link-cloud']}" target="_blank">${entrega['link-cloud']}</a></td>
+                    <td>${ entrega.comentario}</td>
                   </tr>
                 `
-              ).join('')
-            }
+        ).join('')
+        }
           </tbody>
         </table>
       `;
@@ -189,7 +182,7 @@ var Timeline = function (endpoint) {
     function _getNegadoHTML() {
       return `
         <h5>Projeto negado:</h5>
-        <p>${ projeto.status.motivo }</p>
+        <p>${ projeto.status.motivo}</p>
       `;
     }
 
@@ -203,6 +196,8 @@ var Timeline = function (endpoint) {
 
       _customPopupElement(projeto, modeloHTML);
     }
+
+    $(document.body).prepend(_getInitialModalHTML(projeto));
 
     _setInputPopupStructure(projeto.status.negado ? 'negado' : projeto.fase);
 
@@ -251,35 +246,33 @@ var Timeline = function (endpoint) {
       },
     ];
 
-    console.log(projeto);
-
     target.innerHTML = `
-      <div class="timeline fase-${ projeto.fase} ${ projeto.status.negado ? 'negado' : '' }">
+      <div class="timeline fase-${ projeto.fase} ${projeto.status.negado ? 'negado' : ''}">
       ${
-        fases.map((fase, index) => {
-          
-          let tag = 'div';
-          let extraAttributes = '';
+      fases.map((fase, index) => {
 
-          if (fase.isWaitingForInput || (index === 5 && !fase.isPending) || projeto.status.negado) {
-            tag = 'a';
-            extraAttributes = `
+        let tag = 'div';
+        let extraAttributes = '';
+
+        if (fase.isWaitingForInput || (index === 5 && fase.isActive) || projeto.status.negado) {
+          tag = 'a';
+          extraAttributes = `
               href="#" 
               data-toggle="modal" 
-              data-target="#modal-extra" 
-              data-open-to-input`
-          }
+              data-target="#modal-extra-${ projeto._id }"
+              data-open-to-input`;
+        }
 
-          return `
-            <${ tag } 
+        return `
+            <${ tag} 
               class="timeline__event" 
-              ${ extraAttributes }>
-              <div class="event-circle ${ _getEventClass(fase) }">
+              ${ extraAttributes}>
+              <div class="event-circle ${ _getEventClass(fase)}">
                 ${ fase.icon}
               </div>
-              <label class="event-label">${ fase.title }</label>
-            </${ tag }>`;
-        }).join('')
+              <label class="event-label">${ fase.title}</label>
+            </${ tag}>`;
+      }).join('')
       }
       </div>
     `;
