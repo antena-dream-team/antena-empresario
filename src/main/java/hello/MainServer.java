@@ -26,7 +26,6 @@ public class MainServer {
 		
 		REST controller = new REST(model); 
 		
-		controller.home();
 		controller.cadastroEmpresario();
         controller.cadastroProjeto();
         controller.getProjetos();

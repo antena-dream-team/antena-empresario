@@ -19,12 +19,6 @@ $(document).ready(function() {
 $("#btn-cadastro").click(function(event) {
 
     event.preventDefault();
-
-//    nome = $("#nome-cadastro").val();
-//    email = $("#email-cadastro").val();
-//    cpf = $("#cpf-cadastro").val();
-//    senha = $("#senha-cadastro").val();
-
     json = {
            nome: $("#nome-cadastro").val(),
            email: $("#email-cadastro").val(),

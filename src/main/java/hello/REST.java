@@ -104,6 +104,7 @@ public class REST {
 						new emailService(userData).sendSimpleEmail();
 						return userData.toJson();
 					} else {
+
 						return "Email já cadastrado";
 					}
 				} catch (JSONException ex) {

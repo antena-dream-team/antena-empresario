@@ -1,4 +1,6 @@
 package hello;
+
+import com.mongodb.MongoClient;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
@@ -11,10 +13,20 @@ import com.mongodb.client.model.FindOneAndUpdateOptions;
 import com.mongodb.client.result.DeleteResult;
 import antenaJwtAuth.IJwtModel;
 
+import com.mongodb.MongoClient;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import static com.mongodb.client.model.Filters.*;
+import com.mongodb.client.model.CreateCollectionOptions;
+import com.mongodb.client.model.ValidationOptions;
+
 public class Model implements IJwtModel{
 
-	Fongo fongo = new Fongo("mongo");
-	MongoDatabase db = fongo.getDatabase("app");
+//	Fongo fongo = new Fongo("mongo");
+//	MongoDatabase db = fongo.getDatabase("app");
+
+	MongoClient mongoClient = new MongoClient();
+	MongoDatabase db = mongoClient.getDatabase("app");
 	
 	public void addProjeto(Document projeto) {
 		MongoCollection<Document> projetos = db.getCollection("projeto");
