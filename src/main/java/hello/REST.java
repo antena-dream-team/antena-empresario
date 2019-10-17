@@ -116,7 +116,7 @@ public class REST {
 
 					if (found == null || found.isEmpty()) {
 						model.addEmpresario(userData);
-						new emailService(userData).sendSimpleEmail();
+						new emailService(userData).sendSimpleEmail("Antenas - Sua confirmação de conta", "Por favor, para confirmar sua conta, clique no link: ");
 						return userData.toJson();
 					} else {
 						return "Email já cadastrado";

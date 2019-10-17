@@ -2,13 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c096c577-f237-4b67-9d77-b43b061ff905" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hello/MainServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hello/MainServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hello/REST.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hello/REST.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hello/emailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hello/emailService.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -173,7 +169,7 @@
       <workItem from="1571107621209" duration="167000" />
       <workItem from="1571107805046" duration="1261000" />
       <workItem from="1571109506091" duration="2402000" />
-      <workItem from="1571351337581" duration="381000" />
+      <workItem from="1571351337581" duration="1405000" />
     </task>
     <servers />
   </component>

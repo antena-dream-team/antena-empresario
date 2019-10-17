@@ -17,7 +17,7 @@ public class emailService {
         this.destinatario = destinatario;
     }
 
-    public void sendSimpleEmail() {
+    public void sendSimpleEmail(String emailSubject, String emailBody) {
         String userName = "sendEmailMD@gmail.com";
         String password = "210418md";
 
@@ -32,8 +32,8 @@ public class emailService {
             simpleEmail.setAuthenticator(new DefaultAuthenticator(userName, password));
             simpleEmail.setSSLOnConnect(SSL_FLAG);
             simpleEmail.setFrom(fromAddress);
-            simpleEmail.setSubject("Antenas - Sua confirmação de conta ");
-            simpleEmail.setMsg("Por favor, para confirmar sua conta, clique no link: http://127.0.0.1:8081/active/"+basemeiaquatro);
+            simpleEmail.setSubject(emailSubject);
+            simpleEmail.setSubject(emailBody+("http://127.0.0.1:8081/active/"+basemeiaquatro));
             simpleEmail.addTo(this.destinatario.getString("email"));
             simpleEmail.send();
         }catch(Exception ex){
