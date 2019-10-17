@@ -4,7 +4,6 @@ import static spark.Spark.*;
 
 import org.bson.Document;
 
-
 public class MainServer {
 	final static Model model = new Model();
 

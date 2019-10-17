@@ -43,7 +43,8 @@ $('[data-login-form]').on('submit', function(event){
     var pass = event.currentTarget.querySelector('#senha-login').value;
 
     var data = {
-        email, senha: pass
+        email: email,
+        senha: pass
     };
 
     $.post("/Auth", JSON.stringify(data), 'json')
