@@ -7,12 +7,9 @@ var Timeline = function (endpoint) {
     throw new Error('É preciso que o Bootstrap 4 (CSS e JS) e o JQuery esteja sendo importado');
   }
 
-  $(document.body).prepend(_getInitialModalHTML());
-
-
-  function _getInitialModalHTML() {
+  function _getInitialModalHTML(projeto) {
     return `
-      <div class="modal fade" id="modal-extra" tabindex="-1" role="dialog" aria-labelledby="modal-label" aria-hidden="true">
+      <div class="modal fade" id="modal-extra-${ projeto._id.$oid }" tabindex="-1" role="dialog" aria-labelledby="modal-label" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -34,14 +31,24 @@ var Timeline = function (endpoint) {
 
   function _customPopupElement(projeto, inputsHTML) {
 
+    let modalExtra = `#modal-extra-${projeto._id.$oid} `;
+
     $('#modal-label').text(projeto.titulo);
 
-    $('.modal-body').html(inputsHTML);
+    $(modalExtra + '.modal-body').html(inputsHTML);
+
+    var footer = $(modalExtra + '.modal-footer');
+    var btn = footer.get()[0].querySelector('[data-send-changes]');
+
+    if (btn)
+        btn.remove();
+
 
     if ([2, 4].indexOf(projeto.fase) != -1) {
-      $('.modal-footer').append(`
-        <button type="button" class="btn btn-primary" data-send-changes>Enviar alterações</button>
-      `);
+
+        footer.append(`
+            <button type="button" class="btn btn-primary" data-send-changes>Enviar alterações</button>
+        `);
 
       $('[data-send-changes]').click(function (e) {
 
@@ -51,7 +58,6 @@ var Timeline = function (endpoint) {
 
           let descCompleta = $('[data-descricao-completa]').val();
           let descTecnologias = $('[data-descricao-tecnologias]').val();
-          let linkExterno1 = $('[data-link-externo-1]').val();
           let linkExterno2 = $('[data-link-externo-2]').val();
 
           if (descCompleta && descTecnologias) {
@@ -61,7 +67,6 @@ var Timeline = function (endpoint) {
               fase: 3,
               'descricao-completa': descCompleta,
               'descricao-tecnologias': descTecnologias,
-              'link-externo-1': linkExterno1,
               'link-externo-2': linkExterno2
             };
 
@@ -127,10 +132,6 @@ var Timeline = function (endpoint) {
           <div class="form-group">
             <label for="desc-tecnologias">Descrição das Tecnologias:</label>
             <textarea data-descricao-tecnologias class="form-control" id="desc-tecnologias" rows="3">${projeto['descricao-tecnologias']}</textarea>
-          </div>
-          <div class="form-group">
-            <label for="link-externo-1">Link externo 1:</label>
-            <input data-link-externo type="text" class="form-control" value="${projeto['link-externo-1']}" id="link-externo-1">
           </div>
           <div class="form-group">
             <label for="link-externo-2">Link externo 2:</label>
@@ -204,7 +205,7 @@ var Timeline = function (endpoint) {
       _customPopupElement(projeto, modeloHTML);
     }
 
-    _setInputPopupStructure(projeto.status.negado ? 'negado' : projeto.fase);
+    $(document.body).prepend(_getInitialModalHTML(projeto));
 
     var fases = [
       {
@@ -251,8 +252,6 @@ var Timeline = function (endpoint) {
       },
     ];
 
-    console.log(projeto);
-
     target.innerHTML = `
       <div class="timeline fase-${ projeto.fase} ${projeto.status.negado ? 'negado' : ''}">
       ${
@@ -261,13 +260,13 @@ var Timeline = function (endpoint) {
         let tag = 'div';
         let extraAttributes = '';
 
-        if (fase.isWaitingForInput || (index === 5 && !fase.isPending) || projeto.status.negado) {
+        if (fase.isWaitingForInput || (index === 5 && fase.isActive) || projeto.status.negado) {
           tag = 'a';
           extraAttributes = `
               href="#" 
               data-toggle="modal" 
-              data-target="#modal-extra" 
-              data-open-to-input`
+              data-target="#modal-extra-${ projeto._id.$oid}"
+              data-open-to-input=${index}`;
         }
 
         return `
@@ -283,6 +282,12 @@ var Timeline = function (endpoint) {
       }
       </div>
     `;
+
+    target.querySelectorAll('[data-open-to-input]').forEach(function(elemento) {
+        elemento.addEventListener('click', function (e) {
+            _setInputPopupStructure(projeto.status.negado ? 'negado' : parseInt(elemento.getAttribute('data-open-to-input')));
+        });
+    });
   }
 
   return {

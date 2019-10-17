@@ -9,7 +9,7 @@ var Timeline = function (endpoint) {
 
   function _getInitialModalHTML(projeto) {
     return `
-      <div class="modal fade" id="modal-extra-${ projeto._id}" tabindex="-1" role="dialog" aria-labelledby="modal-label" aria-hidden="true">
+      <div class="modal fade" id="modal-extra-${ projeto._id.$oid }" tabindex="-1" role="dialog" aria-labelledby="modal-label" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -31,16 +31,24 @@ var Timeline = function (endpoint) {
 
   function _customPopupElement(projeto, inputsHTML) {
 
-    let modalExtra = `#modal-extra-${projeto._id} `;
+    let modalExtra = `#modal-extra-${projeto._id.$oid} `;
 
     $('#modal-label').text(projeto.titulo);
 
     $(modalExtra + '.modal-body').html(inputsHTML);
 
+    var footer = $(modalExtra + '.modal-footer');
+    var btn = footer.get()[0].querySelector('[data-send-changes]');
+
+    if (btn)
+        btn.remove();
+
+
     if ([2, 4].indexOf(projeto.fase) != -1) {
-      $(modalExtra + '.modal-footer').append(`
-        <button type="button" class="btn btn-primary" data-send-changes>Enviar alterações</button>
-      `);
+
+        footer.append(`
+            <button type="button" class="btn btn-primary" data-send-changes>Enviar alterações</button>
+        `);
 
       $('[data-send-changes]').click(function (e) {
 
@@ -199,8 +207,6 @@ var Timeline = function (endpoint) {
 
     $(document.body).prepend(_getInitialModalHTML(projeto));
 
-    _setInputPopupStructure(projeto.status.negado ? 'negado' : projeto.fase);
-
     var fases = [
       {
         icon: _getIcon(''),
@@ -259,8 +265,8 @@ var Timeline = function (endpoint) {
           extraAttributes = `
               href="#" 
               data-toggle="modal" 
-              data-target="#modal-extra-${ projeto._id}"
-              data-open-to-input`;
+              data-target="#modal-extra-${ projeto._id.$oid}"
+              data-open-to-input=${index}`;
         }
 
         return `
@@ -276,6 +282,12 @@ var Timeline = function (endpoint) {
       }
       </div>
     `;
+
+    target.querySelectorAll('[data-open-to-input]').forEach(function(elemento) {
+        elemento.addEventListener('click', function (e) {
+            _setInputPopupStructure(projeto.status.negado ? 'negado' : parseInt(elemento.getAttribute('data-open-to-input')));
+        });
+    });
   }
 
   return {
