@@ -17,27 +17,47 @@ $(document).ready(function() {
 
 });
 
+var cadastrando = false;
+
 $("#btn-cadastro").click(function(event) {
 
     event.preventDefault();
+
+    if (cadastrando) return;
+
+    cadastrando = true;
 
     var json = {
       nome: $("#nome-cadastro").val(),
       email: $("#email-cadastro").val(),
       cpf: $("#cpf-cadastro").val(),
       senha: $("#senha-cadastro").val()
-    }
+    };
+
+    var btn = document.querySelector('#btn-cadastro');
+
+    btn.innerText = 'Cadastrando...';
+    btn.setAttribute('disabled', '');
 
     var jsonString = JSON.stringify(json);
 
     $.post("/cadastroempresario", jsonString, 'json')
         .done(function(){
+            alert('Te enviamos um email com um link, acesse-o para ativar sua conta.');
             location.reload();
         });
 })
 
+var logando = false;
 $('[data-login-form]').on('submit', function(event){
     event.preventDefault();
+
+    if(logando) return;
+    logando = true;
+
+    var btn = document.querySelector('#entraaaaa');
+    btn.innerText = 'Entrando...';
+    btn.setAttribute('disabled', '');
 
     var email = event.currentTarget.querySelector('#email-login').value;
     var pass = event.currentTarget.querySelector('#senha-login').value;
@@ -51,6 +71,12 @@ $('[data-login-form]').on('submit', function(event){
             localStorage.setItem('token', token);
             location.replace('/empresa.html');
         })
+        .fail(function() {
+            logando = false;
+            alert('Login ou senha invalidos');
+            btn.innerText = 'Entrar';
+            btn.removeAttribute('disabled');
+        });
 });
 
 function abrePopupLogin(event) {

@@ -227,8 +227,9 @@ public class REST {
 				found.replace("ativo", true);
 				model.updateEmpresario(found);
 				if (!found.isEmpty()) {
-					response.redirect("http://localhost:63342/antena-empresario/antena-empresario.main/static/index.html");
+					response.redirect("http://localhost:8081/");
 				}
+
 				return null;
 			}
 		});

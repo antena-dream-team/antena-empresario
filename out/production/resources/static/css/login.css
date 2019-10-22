@@ -67,6 +67,12 @@ input[type=text], input[type=password] {
     cursor: pointer;
     width: 100%;
   }
+
+button[disabled] {
+    opacity: .5;
+    pointer-events: none;
+    cursor: default;
+}
   
   button:hover {
     opacity: 0.8;
