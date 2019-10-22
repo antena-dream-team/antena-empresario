@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c096c577-f237-4b67-9d77-b43b061ff905" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hello/Model.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hello/Model.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modelo.json" beforeDir="false" afterPath="$PROJECT_DIR$/modelo.json" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -143,7 +141,7 @@
       <workItem from="1571351337581" duration="2113000" />
       <workItem from="1571362502367" duration="418000" />
       <workItem from="1571745616819" duration="1601000" />
-      <workItem from="1571748040708" duration="273000" />
+      <workItem from="1571748040708" duration="1022000" />
     </task>
     <servers />
   </component>
