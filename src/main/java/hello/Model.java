@@ -1,8 +1,8 @@
 package hello;
+import com.mongodb.MongoClient;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
-import com.github.fakemongo.Fongo;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
@@ -13,9 +13,10 @@ import antenaJwtAuth.IJwtModel;
 
 public class Model implements IJwtModel{
 
-	Fongo fongo = new Fongo("mongo");
-	MongoDatabase db = fongo.getDatabase("app");
-	
+
+	MongoClient mongoClient = new MongoClient( "127.0.0.1" );
+	MongoDatabase db = mongoClient.getDatabase("app");
+
 	public void addProjeto(Document projeto) {
 		MongoCollection<Document> projetos = db.getCollection("projeto");
     	projetos.insertOne(projeto);

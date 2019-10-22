@@ -3,8 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="c096c577-f237-4b67-9d77-b43b061ff905" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hello/REST.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hello/REST.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hello/emailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hello/emailService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hello/Model.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hello/Model.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -38,35 +38,6 @@
         <option value="Class" />
       </list>
     </option>
-  </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>modal-cont</find>
-      <find>navbar</find>
-      <find>foda</find>
-      <find>background.jpg</find>
-      <find>fodase</find>
-      <find>HEAD</find>
-      <find>auth</find>
-      <find>projeto a</find>
-      <find>empresa__header</find>
-      <find>projet</find>
-      <find>email</find>
-      <find>update</find>
-      <find>updateProjeto</find>
-      <find>active</find>
-      <find>Response</find>
-      <find>home</find>
-      <find>post</find>
-      <find>data-form-new-project</find>
-      <find>inputsData</find>
-      <find>link-ex</find>
-      <find>link</find>
-      <find>#modal-extra</find>
-    </findStrings>
-    <replaceStrings>
-      <replace>simpleEmail</replace>
-    </replaceStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -169,7 +140,10 @@
       <workItem from="1571107621209" duration="167000" />
       <workItem from="1571107805046" duration="1261000" />
       <workItem from="1571109506091" duration="2402000" />
-      <workItem from="1571351337581" duration="1405000" />
+      <workItem from="1571351337581" duration="2113000" />
+      <workItem from="1571362502367" duration="418000" />
+      <workItem from="1571745616819" duration="1601000" />
+      <workItem from="1571748040708" duration="273000" />
     </task>
     <servers />
   </component>
@@ -188,6 +162,28 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/hello/REST.java</url>
+          <line>103</line>
+          <properties class="hello.REST" method="cadastroEmpresario">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/hello/REST.java</url>
+          <line>67</line>
+          <properties class="hello.REST" method="IsAuth">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="evaluateExpression">
